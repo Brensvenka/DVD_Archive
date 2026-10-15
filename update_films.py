@@ -18,6 +18,7 @@ RSS_URL = f"https://letterboxd.com/{USER}/rss/"
 DATA_FILE = Path(__file__).with_name("films-data.js")
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/128.0 Safari/537.36")
+POSTER_RE = re.compile(r"^https://a\.ltrbxd\.com/[A-Za-z0-9/._~%=&?-]+$")
 NS = {"letterboxd": "https://letterboxd.com", "tmdb": "https://themoviedb.org"}
 
 
@@ -59,7 +60,9 @@ def parse_description(desc):
     poster = None
     m = re.search(r'<img src="([^"]+)"', desc or "")
     if m:
-        poster = html.unescape(m.group(1))
+        cand = html.unescape(m.group(1))
+        if POSTER_RE.match(cand):
+            poster = cand
     paras = []
     for p in re.findall(r"<p>(.*?)</p>", desc or "", flags=re.S):
         if "<img" in p:
