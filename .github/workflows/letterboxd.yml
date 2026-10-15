@@ -1,0 +1,37 @@
+name: Letterboxd günlük güncelleme
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # Her gün 06:17 (Türkiye saati)
+  workflow_dispatch:        # Actions sekmesinden elle de çalıştırılabilir
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Letterboxd verisini çek
+        run: python update_films.py
+
+      - name: Değişikliği kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add films-data.js
+          git diff --cached --quiet && exit 0
+          git commit -m "Letterboxd eşitlemesi $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Siteyi yeniden yayınla
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
