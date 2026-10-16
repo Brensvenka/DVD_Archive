@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Letterboxd RSS akışından films-data.js dosyasını günceller.
 
-GitHub Actions her gün çalıştırır. Ek paket gerekmez.
+GitHub Actions her gün çalıştırır. Afiş renkleri için Pillow kullanır.
 """
 import html
 import json
@@ -95,12 +95,66 @@ def film_details(slug):
     return info
 
 
+def fetch_bytes(url):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read()
+
+
+def poster_colors(url):
+    """Afişin baskın rengini ve en canlı rengini (#rrggbb) döndürür."""
+    import colorsys
+    import io
+    from PIL import Image
+    img = Image.open(io.BytesIO(fetch_bytes(url))).convert("RGB")
+    img.thumbnail((48, 72))
+    pal = img.quantize(colors=6, method=Image.Quantize.MEDIANCUT)
+    raw = pal.getpalette()[:18]
+    counts = sorted(pal.getcolors(), reverse=True)
+    cols = [tuple(raw[i * 3:i * 3 + 3]) for _, i in counts]
+    hexc = lambda c: "#%02x%02x%02x" % c
+    dominant = cols[0]
+
+    def vivid(c):
+        h, l, s = colorsys.rgb_to_hls(*[x / 255 for x in c])
+        return s * (1 - abs(l - 0.5) * 2)
+
+    accent = max(cols, key=vivid)
+    h, l, s = colorsys.rgb_to_hls(*[x / 255 for x in accent])
+    accent = tuple(round(x * 255) for x in colorsys.hls_to_rgb(h, min(max(l, 0.45), 0.7), max(s, 0.35)))
+    return [hexc(dominant), hexc(accent)]
+
+
+def add_colors(films, limit=800):
+    try:
+        import PIL  # noqa: F401
+    except ImportError:
+        print("Pillow yok, renkler atlandı.", file=sys.stderr)
+        return 0
+    done = 0
+    for f in films:
+        if done >= limit:
+            break
+        if f.get("colors") or not POSTER_RE.match(f.get("poster") or ""):
+            continue
+        try:
+            f["colors"] = poster_colors(f["poster"].replace("-0-600-0-900-", "-0-460-0-690-"))
+            done += 1
+            time.sleep(0.15)
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! renk alınamadı: {f.get('title')}: {e}", file=sys.stderr)
+    return done
+
+
 def main():
     films = load_data()
     by_slug = {path_slug(f.get("letterboxdPath")): f for f in films}
 
-    root = ET.fromstring(fetch(RSS_URL))
-    items = root.findall("./channel/item")
+    try:
+        items = ET.fromstring(fetch(RSS_URL)).findall("./channel/item")
+    except Exception as e:  # noqa: BLE001
+        print(f"! RSS alınamadı: {e}", file=sys.stderr)
+        items = []
     entries = []
     for it in items:
         date = it.findtext("letterboxd:watchedDate", namespaces=NS)
@@ -166,6 +220,8 @@ def main():
         if json.dumps(f, sort_keys=True) != before:
             changed += 1
 
+    colored = add_colors(films)
+    print(f"Renk hesaplanan afiş: {colored}")
     updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     save_data(films, updated_at)
     print(f"Bitti: {added} yeni film, {changed} güncellenen film, toplam {len(films)}.")
