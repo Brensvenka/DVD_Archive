@@ -19,6 +19,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Pillow kur
+        run: pip install pillow
+
       - name: Letterboxd verisini çek
         run: python update_films.py
 
