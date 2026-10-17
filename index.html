@@ -2,14 +2,25 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-/pOMcRg+enN/4V8RY4DS87Z0WAJeGVFpcqTuyK3+A8Y='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-IouToUbEFS6grzUgxFgqWdW3GLr7nCrMlMxGnh3V2GQ='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#12171d" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <title>öfb · Film Arşivim</title>
+  <title>DVD Koleksiyonum · brensvenka</title>
+  <meta name="description" content="brensvenka'nın Letterboxd günlüğünden her gün güncellenen kişisel film arşivi." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23cfd6dd'/%3E%3Ccircle cx='32' cy='32' r='26' fill='%2340bcf4'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23cfd6dd'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%2312171d'/%3E%3C/svg%3E" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="brensvenka" />
+  <meta property="og:title" content="DVD Koleksiyonum · brensvenka" />
+  <meta property="og:description" content="Letterboxd günlüğümden her gün güncellenen kişisel film arşivim: afişler, puanlar, incelemeler." />
+  <meta property="og:url" content="https://brensvenka.github.io/DVD_Archive/" />
+  <meta property="og:image" content="https://brensvenka.github.io/DVD_Archive/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
   <style>
     :root {
       color-scheme: dark;
@@ -559,6 +570,42 @@
       .nav-label { display:none; }
       .stats { padding-top:calc(var(--strip-h) + 46px); }
     }
+      /* ===== v7 ===== */
+    .tools { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px 18px; padding:18px 0 0; }
+    .search { position:relative; display:flex; align-items:center; gap:8px; flex:1 1 260px; max-width:420px; padding:0 12px; height:38px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.035); color:var(--muted); transition:border-color .2s, background .2s; }
+    .search:focus-within { border-color:var(--accent); background:rgba(64,188,244,.06); }
+    .search span { font-size:17px; line-height:1; }
+    .search input { flex:1; min-width:0; border:0; outline:0; background:none; color:var(--ink); font:400 13.5px var(--sans, Arial); }
+    .search input::placeholder { color:var(--muted); opacity:.8; }
+    .search input::-webkit-search-cancel-button { filter:invert(.7); }
+    .search kbd { padding:1px 6px; border:1px solid var(--line); border-radius:4px; font:11px var(--sans, Arial); color:var(--muted); }
+    .search:focus-within kbd { display:none; }
+    .rate-filter { display:flex; gap:4px; flex-wrap:wrap; }
+    .rate-filter button { padding:6px 11px; border:1px solid var(--line); border-radius:999px; background:none; color:#b9c3ce; font:500 11.5px var(--sans, Arial); cursor:pointer; transition:background .15s, color .15s; }
+    .rate-filter button:hover { color:#fff; border-color:rgba(64,188,244,.5); }
+    .rate-filter button.on { background:var(--accent); border-color:var(--accent); color:#06121a; }
+    .filter-note { margin:-4px 0 14px; color:var(--muted); font:12px var(--sans, Arial); letter-spacing:.04em; }
+    .dir-kick { color:var(--muted); font-style:italic; font-weight:300; }
+    .clear-chip { margin:2px 0 16px; padding:5px 11px; border:1px solid var(--line); border-radius:999px; background:none; color:#b9c3ce; font:12px var(--sans, Arial); cursor:pointer; }
+    .clear-chip:hover { border-color:var(--accent); color:#fff; }
+    .dir-link { padding:0; border:0; background:none; color:inherit; font:inherit; cursor:pointer; text-decoration:underline; text-decoration-color:rgba(64,188,244,.45); text-underline-offset:3px; }
+    .dir-link:hover { color:var(--accent); text-decoration-color:var(--accent); }
+    .modal-nav { position:absolute; z-index:6; right:56px; top:12px; display:flex; gap:6px; }
+    .modal-nav[hidden] { display:none; }
+    .modal-nav button { width:35px; height:35px; border:1px solid rgba(200,215,230,.35); border-radius:50%; background:#1c242e; color:#eef2f6; font-size:20px; line-height:1; cursor:pointer; }
+    .modal-nav button:hover { background:#1f6f93; }
+    /* dönen disk */
+    @keyframes disc-spin { to { transform:rotate(360deg); } }
+    .overlay.open .disc-label { animation:disc-spin 14s linear infinite; }
+    .overlay.open .disc:hover .disc-label { animation-play-state:paused; }
+    /* ışıklar söner */
+    .overlay::before { content:""; position:fixed; inset:0; z-index:7; background:#000; opacity:0; pointer-events:none; }
+    .overlay.opening::before { animation:lights-down .65s ease-out both; }
+    @keyframes lights-down { 0% { opacity:0; } 25% { opacity:.92; } 100% { opacity:0; } }
+    .tiles { grid-template-columns:repeat(3,minmax(0,1fr)) !important; }
+    @media (max-width:800px) { .tiles { grid-template-columns:repeat(3,minmax(0,1fr)) !important; } }
+    @media (max-width:520px) { .tiles { grid-template-columns:1fr !important; } .tools { padding-top:14px; } .search { max-width:none; flex-basis:100%; } .modal-nav { right:auto; left:8px; top:8px; } }
+    @media (prefers-reduced-motion: reduce) { .overlay.open .disc-label { animation:none; } .overlay.opening::before { animation:none; } }
   </style>
 </head>
 <body>
@@ -628,7 +675,7 @@
   const longDay=d=>dayDate(d).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
   function renderStats(){const all=films;const entries=all.flatMap(f=>(f.watchDates||[]).map(d=>({d,f})));const rated=all.filter(f=>f.rating!=null);const avg=rated.length?(rated.reduce((s,f)=>s+f.rating,0)/rated.length):0;const rewatched=all.filter(f=>(f.watchDates||[]).length>1).length;const days=[...new Set(entries.map(e=>e.d))].sort();let best=0,run=0,prev=null;for(const d of days){const t=Date.parse(d+'T00:00:00Z');run=prev!==null&&t-prev===864e5?run+1:1;best=Math.max(best,run);prev=t}
     const fmt=n=>n.toLocaleString('tr-TR');$('#statsLead').textContent=days.length?`${dayDate(days[0]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} – ${dayDate(days[days.length-1]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} arası günlük kayıtları`:'';
-    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı',entries.length],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan',Math.round(avg*10)],[fmt(rewatched),'Tekrar izlenen film',rewatched],[`${best} gün`,'En uzun seri',best]].map(([v,l,n],i)=>`<div class="ticket"><div class="tk-main"><strong>${v}</strong><span class="tk-label">${l}</span></div><div class="tk-stub" aria-hidden="true"><span>★</span></div></div>`).join('');
+    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı',entries.length],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan',Math.round(avg*10)],[`${best} gün`,'En uzun seri',best]].map(([v,l,n],i)=>`<div class="ticket"><div class="tk-main"><strong>${v}</strong><span class="tk-label">${l}</span></div><div class="tk-stub" aria-hidden="true"><span>★</span></div></div>`).join('');
     const log=[...entries].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);const byYear=new Map();log.forEach(e=>{const y=e.d.slice(0,4);if(!/^\d{4}$/.test(y))return;const v=byYear.get(y)||[];v.push(e);byYear.set(y,v)});const ys=[...byYear.keys()].sort();const maxY=Math.max(1,...ys.map(y=>byYear.get(y).length));const wall=$('#yearWall');
     wall.innerHTML=ys.map(y=>{const l=byYear.get(y);return `<div class="wcol"><div class="wbox"><b>${l.length}</b><div class="wtiles">${l.map(e=>mini(e.f,'wt',`${e.f.title}\n${longDay(e.d)}`)).join('')}</div></div><span class="wy">${y}</span></div>`}).join('');imgFallback(wall);
     const fitWall=()=>{const box=wall.querySelector('.wbox');if(!box)return;const b=box.querySelector('b');const W=box.clientWidth,H=box.clientHeight-(b?b.offsetHeight+6:0);let k=1,g=2;for(;k<80;k++){g=k>8?1:2;const tw=(W-(k-1)*g)/k,rows=Math.ceil(maxY/k);if(rows*tw*1.5+(rows-1)*g<=H)break}wall.style.setProperty('--k',k);wall.style.setProperty('--tg',g+'px')};if(window.ResizeObserver)new ResizeObserver(fitWall).observe(wall);fitWall();
@@ -650,6 +697,42 @@
   document.addEventListener('keydown',e=>{if(e.key!=='Tab'||!$('#overlay').classList.contains('open'))return;const els=[...document.querySelectorAll('.modal button, .modal [href], .modal [tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);if(!els.length)return;const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}else if(!e.target.closest('.modal')){e.preventDefault();first.focus()}});
   render();(()=>{const u=window.LETTERBOXD_UPDATED_AT;if(!u)return;const d=new Date(u);if(isNaN(d))return;$('#syncStatus').textContent='Letterboxd eşitlendi · '+d.toLocaleString('tr-TR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Istanbul'})})();
   const baseOpenFilm=openFilm;let modalCloseTimer=0,modalAnimationTimer=0;openFilm=function(f){clearTimeout(modalCloseTimer);clearTimeout(modalAnimationTimer);const overlay=$('#overlay');overlay.classList.remove('closing','opening');baseOpenFilm(f);void overlay.offsetWidth;requestAnimationFrame(()=>{if(overlay.classList.contains('open')){overlay.classList.add('opening');modalAnimationTimer=setTimeout(()=>overlay.classList.remove('opening'),780)}})};closeModal=function(){const overlay=$('#overlay');if(!overlay.classList.contains('open'))return;clearTimeout(modalAnimationTimer);clearTimeout(modalCloseTimer);overlay.classList.remove('opening');overlay.classList.add('closing');document.body.style.overflow='';modalCloseTimer=setTimeout(()=>overlay.classList.remove('open','closing'),310)};$('#closeModal').onclick=closeModal;
+
+  /* ===== v7: arama, puan filtresi, yönetmen sayfası, film linki, kaydırma ===== */
+  const fkey=f=>{const m=/\/film\/([^/]+)\//.exec(f.letterboxdPath||'');return m?m[1]:(f.slug||'')};
+  const norm=s=>String(s||'').toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i');
+  let searchQ='',minRating=0,activeDirector='',currentFilm=null;
+  const baseFiltered=filtered;
+  filtered=function(){let l=baseFiltered();if(activeCollection==='director'&&activeDirector)l=l.filter(f=>dirNames(f).includes(activeDirector));if(minRating)l=l.filter(f=>f.rating!=null&&f.rating>=minRating);if(searchQ){const q=norm(searchQ);l=l.filter(f=>norm(f.title).includes(q)||norm(f.art).includes(q)||norm(f.director).includes(q))}return l};
+  const tools=document.createElement('div');tools.className='tools';
+  tools.innerHTML='<label class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Film ya da yönetmen ara" autocomplete="off" spellcheck="false" aria-label="Film ya da yönetmen ara"><kbd>/</kbd></label><div class="rate-filter" role="group" aria-label="Puan filtresi">'+[[0,'Tümü'],[6,'6+'],[8,'8+'],[9,'9+'],[10,'10']].map(([v,t])=>`<button type="button" data-min="${v}" class="${v===0?'on':''}">${v?'★ ':''}${t}</button>`).join('')+'</div>';
+  document.querySelector('.controls').before(tools);
+  const searchInput=$('#searchInput');let sT=0;
+  searchInput.addEventListener('input',()=>{clearTimeout(sT);sT=setTimeout(()=>{searchQ=searchInput.value.trim();activePage=1;render()},140)});
+  tools.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>{minRating=Number(b.dataset.min);tools.querySelectorAll('[data-min]').forEach(x=>x.classList.toggle('on',x===b));activePage=1;render()});
+  document.addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&!$('#overlay').classList.contains('open')){e.preventDefault();searchInput.focus()}});
+  function showDirector(n){activeDirector=n;activeCollection='director';activeYear='';activePage=1;if($('#overlay').classList.contains('open'))closeModal();render();setTimeout(()=>{const h=document.querySelector('.section-head');if(h)h.scrollIntoView({block:'start',behavior:'smooth'})},60)}
+  const baseRender=render;
+  render=function(){if(activeCollection!=='director')activeDirector='';baseRender();const h=shelves.querySelector('.section-head h2');if(!h)return;if(activeCollection==='director'&&activeDirector){h.innerHTML=`<span class="dir-kick">Bir</span> ${escapeHtml(activeDirector)} <span class="dir-kick">filmi</span>`;const x=document.createElement('button');x.type='button';x.className='clear-chip';x.textContent='× Tüm filmlere dön';x.onclick=()=>{activeCollection='all';render()};h.after(x)}
+    if(searchQ||minRating){const n=document.createElement('p');n.className='filter-note';n.textContent=[searchQ?`“${searchQ}” araması`:'',minRating?`${minRating===10?'10/10':minRating+' ve üstü'} puanlılar`:''].filter(Boolean).join(' · ');shelves.querySelector('.section-head').after(n)}
+    if(!shelves.querySelector('.film')&&(searchQ||minRating)){const nr=shelves.querySelector('.no-results');if(nr)nr.textContent='Aramana uyan film bulunamadı.'}};
+  $('#dirCards')&&$('#dirCards').addEventListener('click',e=>{const c=e.target.closest('.dcard');if(!c)return;e.stopImmediatePropagation();const n=c.getAttribute('aria-label').split(',')[0];showDirector(n)},true);
+  const prevOpen=openFilm;
+  openFilm=function(f){currentFilm=f;prevOpen(f);const d=$('#modalDetails .detail strong');const names=dirNames(f);if(d&&names.length){d.innerHTML=names.map((n,i)=>`<button type="button" class="dir-link" data-i="${i}">${escapeHtml(n)}</button>`).join(', ');d.querySelectorAll('.dir-link').forEach(b=>b.onclick=()=>showDirector(names[Number(b.dataset.i)]))}
+    const k=fkey(f);if(k&&location.hash!=='#film/'+k)history.replaceState(null,'','#film/'+encodeURIComponent(k));
+    const nav=$('#modalNav');if(nav){const l=filtered(),i=l.indexOf(f);nav.hidden=i<0||l.length<2}};
+  const prevClose=closeModal;
+  closeModal=function(){currentFilm=null;if(location.hash.startsWith('#film/'))history.replaceState(null,'',location.pathname+location.search);prevClose()};
+  $('#closeModal').onclick=closeModal;
+  function step(d){if(!currentFilm)return;const l=filtered(),i=l.indexOf(currentFilm);if(i<0||l.length<2)return;openFilm(l[(i+d+l.length)%l.length])}
+  const navEl=document.createElement('div');navEl.id='modalNav';navEl.className='modal-nav';navEl.innerHTML='<button type="button" data-d="-1" aria-label="Önceki film">‹</button><button type="button" data-d="1" aria-label="Sonraki film">›</button>';$('.modal').appendChild(navEl);navEl.querySelectorAll('button').forEach(b=>b.onclick=()=>step(Number(b.dataset.d)));
+  document.addEventListener('keydown',e=>{if(!$('#overlay').classList.contains('open'))return;if(e.key==='ArrowLeft')step(-1);else if(e.key==='ArrowRight')step(1)});
+  let tX=0,tY=0,tT=0;const modalEl=$('.modal');
+  modalEl.addEventListener('touchstart',e=>{const t=e.changedTouches[0];tX=t.clientX;tY=t.clientY;tT=Date.now()},{passive:true});
+  modalEl.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-tX,dy=t.clientY-tY;if(Date.now()-tT<700&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6&&!e.target.closest('.more-row'))step(dx<0?1:-1)},{passive:true});
+  function openFromHash(){const m=/^#film\/(.+)$/.exec(location.hash);if(!m)return;const k=decodeURIComponent(m[1]);const f=films.find(x=>fkey(x)===k);if(f&&f!==currentFilm)openFilm(f)}
+  addEventListener('hashchange',openFromHash);openFromHash();
+  render();
   </script>
 </body>
 </html>
