@@ -2,13 +2,13 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-4jEincTRBQr8Oufr2N9ervN9GPuX69ZGlw/FuHoa8qM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-6RIMO0V97J3tqLmc3MHchyb7WeymLkx9HHakMqG1V2o='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#12171d" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <title>öfb · Film Arşivim</title>
   <style>
     :root {
@@ -24,7 +24,7 @@
     body {
       margin: 0;
       color: var(--ink);
-      font-family: "Merriweather", Georgia, "Times New Roman", serif; font-size: 17px;
+      font-family: var(--sans); font-size: 17px;
       background-color: #21160f;
       background-image:
         radial-gradient(ellipse at 50% 0, rgba(149, 99, 53, .16), transparent 42%),
@@ -38,7 +38,7 @@
     .shell { max-width: 1500px; margin: 0 auto; padding: 0 42px; }
     .topbar {
       height: 66px; display: flex; align-items: center; justify-content: flex-end;
-      border-bottom: 1px solid var(--line); font: 11.88px Arial, sans-serif;
+      border-bottom: 1px solid var(--line); font: 11.88px var(--sans);
       letter-spacing: .13em; text-transform: uppercase;
     }
     .topright { display: flex; align-items: center; gap: 20px; color: var(--muted); }
@@ -58,30 +58,30 @@
     .stat span { font-size: max(9.5px, .36em); }
     .stat:first-child { border: 0; }
     .stat strong { display: block; font-size: 1em; font-weight: 400; line-height: 1.1; }
-    .stat span { display: block; margin-top: 5px; color: var(--muted); font: .36em Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    .stat span { display: block; margin-top: 5px; color: var(--muted); font: .36em var(--sans); letter-spacing: .12em; text-transform: uppercase; }
     .collection-nav {
       display: flex; align-items: center; gap: 5px; overflow-x: auto; padding: 0 0 15px;
       border-bottom: 1px solid var(--line); scrollbar-width: none;
     }
     .collection-nav::-webkit-scrollbar { display: none; }
-    .nav-label { margin-right: 8px; color: var(--muted); white-space: nowrap; font: 9.72px Arial, sans-serif; letter-spacing: .15em; }
+    .nav-label { margin-right: 8px; color: var(--muted); white-space: nowrap; font: 9.72px var(--sans); letter-spacing: .15em; }
     .pill {
       padding: 9px 11px; border: 0; border-bottom: 1px solid transparent; border-radius: 0;
-      background: transparent; color: #dfceb3; white-space: nowrap; font: 11.88px Arial, sans-serif;
+      background: transparent; color: #dfceb3; white-space: nowrap; font: 11.88px var(--sans);
     }
     .pill:hover, .pill.active { color: #f1d5a6; border-bottom-color: #c49259; }
     .controls {
       display: flex; align-items: center; justify-content: space-between; padding: 18px 0 0;
-      color: var(--muted); font: 10.8px Arial, sans-serif; letter-spacing: .07em;
+      color: var(--muted); font: 10.8px var(--sans); letter-spacing: .07em;
     }
     .controls-left { display: flex; align-items: center; gap: 12px; }
     .controls select {
       padding: 7px 23px 7px 2px; border: 0; border-bottom: 1px solid rgba(233, 207, 169, .4);
-      outline: 0; color: var(--ink); background: transparent; font: 11.88px Arial, sans-serif;
+      outline: 0; color: var(--ink); background: transparent; font: 11.88px var(--sans);
     }
     .controls select option { color: var(--ink); background: #21160f; }
     .count { font-variant-numeric: tabular-nums; }
-    .pagination { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 22px 0 46px; font: 12px Arial, sans-serif; }
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 22px 0 46px; font: 12px var(--sans); }
     .pagination[hidden] { display: none; }
     .page-button { padding: 9px 13px; border: 1px solid rgba(228,201,162,.34); color: var(--ink); background: rgba(57,37,23,.55); }
     .page-button:hover:not(:disabled) { color: #fff7e9; background: var(--wood); }
@@ -116,14 +116,14 @@
     .cover-art { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; background: #111213; }
     .cover:before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg,rgba(0,0,0,.12),transparent 26%,rgba(0,0,0,.12) 43%,rgba(0,0,0,.48) 50%,rgba(0,0,0,.12) 59%,transparent 78%,rgba(0,0,0,.16)), linear-gradient(112deg,rgba(255,255,255,.24),transparent 12%,transparent 82%,rgba(255,255,255,.08)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); pointer-events: none; }
     .cover-text { position: absolute; z-index: 2; top: 50%; left: 7px; right: 7px; transform: translateY(-50%); display: grid; justify-items: center; gap: 7px; color: #fff8eb; text-align: center; text-shadow: 0 1px 3px #000, 0 2px 12px rgba(0,0,0,.95); pointer-events: none; }
-    .cover-title { font-family: "Merriweather", Georgia, serif; font-size: clamp(8.424px,.806vw,11.934px); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; }
-    .cover-year { font: 9.72px Arial,sans-serif; letter-spacing: .16em; text-transform: uppercase; opacity: .95; }
+    .cover-title { font-family: var(--serif); font-size: clamp(8.424px,.806vw,11.934px); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; }
+    .cover-year { font: 9.72px var(--sans); letter-spacing: .16em; text-transform: uppercase; opacity: .95; }
     /* Puan kurdelesi: kapağın alt kısmında, yarı saydam yatay şerit */
     .rating-badge {
       position: absolute; z-index: 3; left: 0; right: 0; bottom: 11%;
       display: flex; align-items: baseline; justify-content: center; gap: .08em;
       font-size: clamp(9.945px, 1.0361vw, 14.9175px); font-variant-numeric: lining-nums tabular-nums; font-feature-settings: "lnum" 1, "tnum" 1;
-      padding: 3.9px 0 4.55px; color: #fff3db; font-family: "Merriweather", Georgia, serif; line-height: 1;
+      padding: 3.9px 0 4.55px; color: #fff3db; font-family: var(--serif); line-height: 1;
       background: linear-gradient(180deg, rgba(48,26,14,.66), rgba(14,8,5,.76));
       border-top: 1px solid rgba(243,214,156,.9); border-bottom: 1px solid rgba(243,214,156,.9);
       box-shadow: 0 3px 10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14);
@@ -135,9 +135,9 @@
     .rating-badge i { font-style: normal; font-size: 1em; font-weight: 700; letter-spacing: 0; }
     .rating-badge.unrated { padding: 3.25px 0 3.9px; font-size: 10.5px; letter-spacing: .16em; color: rgba(255,243,219,.82); background: linear-gradient(180deg, rgba(48,26,14,.5), rgba(14,8,5,.6)); }
     .fav-mark { position: absolute; z-index: 3; top: 7px; left: 7px; color: #f3d69c; font-size: 9.828px; text-shadow: 0 1px 6px #20140b; }
-    .empty { grid-column: 1 / -1; padding: 65px 10px; color: #f2e3cb; text-align: center; font: 12.96px Arial, sans-serif; }
+    .empty { grid-column: 1 / -1; padding: 65px 10px; color: #f2e3cb; text-align: center; font: 12.96px var(--sans); }
     .no-results { padding: 30px; color: var(--muted); text-align: center; font-style: italic; }
-    footer { display: flex; justify-content: space-between; gap: 18px; padding: 22px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font: 9.72px Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+    footer { display: flex; justify-content: space-between; gap: 18px; padding: 22px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font: 9.72px var(--sans); letter-spacing: .1em; text-transform: uppercase; }
     .overlay { position: fixed; z-index: 20; inset: 0; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(8, 6, 4, .88); opacity: 0; transition: opacity .2s ease; }
     .overlay.open { display: flex; opacity: 1; }
     .overlay.closing { opacity: 0; }
@@ -164,9 +164,9 @@
     .modal:before { content: ""; position: absolute; z-index: 4; top: 0; bottom: 0; left: 46%; width: 20px; transform: translateX(-50%); background: linear-gradient(90deg, #08090a, #555653 42%, #18191a 70%, #08090a); pointer-events: none; }
     .modal-left { display: flex; flex-direction: column; padding: 44px 42px 34px; background: linear-gradient(135deg, #202121, #151616 75%); }
     .modal h3 { margin: 0 0 18px; color: #fff8eb; font-size: clamp(32.4px, 4.32vw, 50.76px); font-weight: 400; line-height: 1.08; letter-spacing: -.035em; }
-    .modal-rating { margin-bottom: 24px; color: #e2ba7d; font: 11.88px Arial, sans-serif; letter-spacing: .1em; }
+    .modal-rating { margin-bottom: 24px; color: #e2ba7d; font: 11.88px var(--sans); letter-spacing: .1em; }
     .details { display: grid; grid-template-columns: 1fr 1fr; gap: 17px 12px; padding-top: 18px; border-top: 1px solid rgba(238,224,198,.2); }
-    .detail span { display: block; margin-bottom: 5px; color: #c2aa83; font: 9.72px Arial, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+    .detail span { display: block; margin-bottom: 5px; color: #c2aa83; font: 9.72px var(--sans); letter-spacing: .13em; text-transform: uppercase; }
     .detail strong { color: #fff6e8; font-size: 15.12px; font-weight: 400; line-height: 1.45; }
     .review { margin: 22px 0 0; color: #e6d8c0; font-size: 15.12px; font-style: italic; line-height: 1.6; white-space: pre-line; }
     .modal-right { position: relative; display: grid; place-items: center; overflow: hidden; padding: 34px; background: linear-gradient(135deg, #292b2a, #131516 68%); }
@@ -265,13 +265,13 @@
     .film .poster .cover-art { background:transparent; }
     .film:hover .poster, .film:focus-visible .poster { transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.5); }
     .film:focus-visible .poster { outline:2px solid var(--accent); outline-offset:3px; }
-    .noimg { position:absolute; inset:0; display:grid; place-items:center; padding:12px; text-align:center; color:#fff; font-family:"Merriweather",Georgia,serif; font-size:14px; line-height:1.3; text-shadow:0 1px 6px rgba(0,0,0,.7); }
-    .rate { position:absolute; z-index:2; right:6px; bottom:6px; padding:3px 7px; border-radius:5px; background:rgba(0,0,0,.72); color:#fff; font:600 12px/1.2 Arial,sans-serif; backdrop-filter:blur(4px); }
+    .noimg { position:absolute; inset:0; display:grid; place-items:center; padding:12px; text-align:center; color:#fff; font-family:var(--serif); font-size:14px; line-height:1.3; text-shadow:0 1px 6px rgba(0,0,0,.7); }
+    .rate { position:absolute; z-index:2; right:6px; bottom:6px; padding:3px 7px; border-radius:5px; background:rgba(0,0,0,.72); color:#fff; font:600 12px/1.2 var(--sans); backdrop-filter:blur(4px); }
     .rate.unrated { color:rgba(255,255,255,.65); font-weight:400; font-size:10.5px; letter-spacing:.06em; }
     .film .fav-mark { z-index:2; top:6px; left:6px; padding:2px 6px; border-radius:5px; background:rgba(0,0,0,.72); color:var(--accent); font-size:11px; text-shadow:none; }
     .film .meta { padding-top:9px; }
-    .film .t { font:500 13.5px/1.3 Arial,sans-serif; color:var(--ink); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .film .y { margin-top:3px; font:12px/1.35 Arial,sans-serif; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .film .t { font:500 13.5px/1.3 var(--sans); color:var(--ink); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .film .y { margin-top:3px; font:12px/1.35 var(--sans); color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .overlay { background:rgba(6,9,12,.88); }
     .modal { background:#151b22; color:#e3e8ee; }
     .modal-left { background:linear-gradient(135deg,#1c242e,#141a21 75%); }
@@ -292,7 +292,7 @@
     .film:hover .poster { box-shadow:0 12px 30px rgba(0,0,0,.5), 0 0 28px -6px var(--tint, transparent); }
     .rate.perfect { background:var(--accent); color:#06121a; }
     .topright .import-btn + .import-btn { margin-left:-8px; }
-    .random-btn { padding:7px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink); background:rgba(255,255,255,.04); font:11.5px Arial,sans-serif; letter-spacing:.04em; white-space:nowrap; }
+    .random-btn { padding:7px 12px; border:1px solid var(--line); border-radius:999px; color:var(--ink); background:rgba(255,255,255,.04); font:11.5px var(--sans); letter-spacing:.04em; white-space:nowrap; }
     .random-btn:hover { background:var(--accent); color:#06121a; }
     .modal { max-height:92vh; }
     .modal-bg { position:absolute; inset:-60px; z-index:0; background-size:cover; background-position:center; filter:blur(40px) saturate(1.25) brightness(.42); transform:scale(1.1); pointer-events:none; }
@@ -301,35 +301,35 @@
     .modal-right:before { background:rgba(5,8,11,.35); border-color:rgba(255,255,255,.12); }
     .more { margin-top:auto; padding-top:24px; }
     .more[hidden] { display:none; }
-    .more h4 { margin:0 0 10px; color:#8a96a4; font:9.72px Arial,sans-serif; letter-spacing:.13em; text-transform:uppercase; font-weight:400; }
+    .more h4 { margin:0 0 10px; color:#8a96a4; font:9.72px var(--sans); letter-spacing:.13em; text-transform:uppercase; font-weight:400; }
     .more-row { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:thin; }
     .more-row button { flex:0 0 64px; padding:0; border:0; background:none; text-align:left; }
     .more-row .mp { width:64px; aspect-ratio:2/3; border-radius:4px; overflow:hidden; background:var(--cover,#1b232c); box-shadow:0 4px 10px rgba(0,0,0,.4); transition:transform .15s; }
     .more-row .mp img { width:100%; height:100%; object-fit:cover; display:block; }
     .more-row button:hover .mp, .more-row button:focus-visible .mp { transform:translateY(-3px); outline:2px solid var(--tint,var(--accent)); outline-offset:2px; }
-    .more-row span { display:block; margin-top:5px; color:#c9d2dc; font:10.5px/1.25 Arial,sans-serif; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .more-row span { display:block; margin-top:5px; color:#c9d2dc; font:10.5px/1.25 var(--sans); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .stats { padding:46px 0 30px; border-top:1px solid var(--line); scroll-margin-top:20px; }
     .stats > h2 { margin:0 0 6px; font-size:27px; font-weight:400; letter-spacing:-.03em; }
-    .stats .lead { margin:0 0 26px; color:var(--muted); font:12px Arial,sans-serif; letter-spacing:.04em; }
+    .stats .lead { margin:0 0 26px; color:var(--muted); font:12px var(--sans); letter-spacing:.04em; }
     .tiles { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
     .tile, .panel { border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.025); }
     .tile { padding:16px 18px; }
     .tile strong { display:block; font-size:30px; font-weight:400; line-height:1.1; }
-    .tile span { display:block; margin-top:6px; color:var(--muted); font:10px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+    .tile span { display:block; margin-top:6px; color:var(--muted); font:10px var(--sans); letter-spacing:.12em; text-transform:uppercase; }
     .panels { display:grid; grid-template-columns:1.2fr 1fr; gap:14px; }
     .panel { padding:18px 20px 16px; min-width:0; }
     .panel.wide { grid-column:1 / -1; }
     .panel h3 { margin:0 0 4px; font-size:16px; font-weight:400; }
-    .panel p { margin:0 0 16px; color:var(--muted); font:11.5px Arial,sans-serif; }
+    .panel p { margin:0 0 16px; color:var(--muted); font:11.5px var(--sans); }
     .bars { display:flex; align-items:flex-end; gap:6px; height:150px; padding-bottom:2px; border-bottom:1px solid rgba(200,215,230,.18); }
     .bar { position:relative; flex:1 1 0; min-width:0; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; cursor:default; }
     .bar i { display:block; width:100%; max-width:46px; min-height:2px; border-radius:4px 4px 0 0; background:var(--accent); opacity:.85; transition:opacity .15s; }
     .bar:hover i { opacity:1; }
-    .bar b { margin-bottom:5px; color:var(--ink); font:600 11px Arial,sans-serif; }
+    .bar b { margin-bottom:5px; color:var(--ink); font:600 11px var(--sans); }
     .axis { display:flex; gap:6px; margin-top:7px; }
-    .axis span { flex:1 1 0; min-width:0; text-align:center; color:var(--muted); font:11px Arial,sans-serif; }
+    .axis span { flex:1 1 0; min-width:0; text-align:center; color:var(--muted); font:11px var(--sans); }
     .hbars { display:grid; gap:9px; }
-    .hbar { display:grid; grid-template-columns:minmax(0,150px) 1fr 26px; align-items:center; gap:10px; font:12.5px Arial,sans-serif; cursor:default; }
+    .hbar { display:grid; grid-template-columns:minmax(0,150px) 1fr 26px; align-items:center; gap:10px; font:12.5px var(--sans); cursor:default; }
     .hbar .n { color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .hbar .track { height:10px; }
     .hbar .track i { display:block; height:100%; border-radius:0 4px 4px 0; background:var(--accent); opacity:.85; }
@@ -337,20 +337,20 @@
     .hbar .c { color:var(--muted); text-align:right; font-variant-numeric:tabular-nums; }
     .cal-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
     .cal-years { display:flex; gap:4px; flex-wrap:wrap; }
-    .cal-years button { padding:5px 10px; border:1px solid var(--line); border-radius:999px; color:#b9c3ce; background:none; font:11px Arial,sans-serif; }
+    .cal-years button { padding:5px 10px; border:1px solid var(--line); border-radius:999px; color:#b9c3ce; background:none; font:11px var(--sans); }
     .cal-years button.on { color:#06121a; background:var(--accent); border-color:var(--accent); }
     .cal-wrap { overflow-x:auto; padding-bottom:6px; }
-    .cal-months { display:grid; grid-template-columns:repeat(53,13px); gap:3px; margin:0 0 4px 28px; color:var(--muted); font:10px Arial,sans-serif; }
+    .cal-months { display:grid; grid-template-columns:repeat(53,13px); gap:3px; margin:0 0 4px 28px; color:var(--muted); font:10px var(--sans); }
     .cal-body { display:flex; gap:6px; }
-    .cal-days { display:grid; grid-template-rows:repeat(7,13px); gap:3px; width:22px; color:var(--muted); font:9.5px/13px Arial,sans-serif; }
+    .cal-days { display:grid; grid-template-rows:repeat(7,13px); gap:3px; width:22px; color:var(--muted); font:9.5px/13px var(--sans); }
     .cal { display:grid; grid-template-rows:repeat(7,13px); grid-auto-flow:column; grid-auto-columns:13px; gap:3px; }
     .cal i { border-radius:3px; background:rgba(200,215,230,.07); }
     .cal i.l1 { background:#1b4560; } .cal i.l2 { background:#2a7aa3; } .cal i.l3 { background:#40bcf4; }
     .cal i.out { background:transparent; }
     .cal i[data-tip] { cursor:default; }
-    .cal-legend { display:flex; align-items:center; gap:4px; justify-content:flex-end; margin-top:10px; color:var(--muted); font:10.5px Arial,sans-serif; }
+    .cal-legend { display:flex; align-items:center; gap:4px; justify-content:flex-end; margin-top:10px; color:var(--muted); font:10.5px var(--sans); }
     .cal-legend i { width:12px; height:12px; border-radius:3px; display:inline-block; }
-    .tip { position:fixed; z-index:40; max-width:260px; padding:8px 10px; border:1px solid rgba(200,215,230,.18); border-radius:7px; background:#0b0f14; color:#e3e8ee; font:12px/1.4 Arial,sans-serif; box-shadow:0 8px 24px rgba(0,0,0,.5); pointer-events:none; opacity:0; transition:opacity .1s; }
+    .tip { position:fixed; z-index:40; max-width:260px; padding:8px 10px; border:1px solid rgba(200,215,230,.18); border-radius:7px; background:#0b0f14; color:#e3e8ee; font:12px/1.4 var(--sans); box-shadow:0 8px 24px rgba(0,0,0,.5); pointer-events:none; opacity:0; transition:opacity .1s; }
     .tip.on { opacity:1; }
     .tip b { display:block; margin-bottom:2px; font-weight:600; }
     @media (max-width:800px) { .tiles { grid-template-columns:repeat(2,minmax(0,1fr)); } .panels { grid-template-columns:1fr; } }
@@ -376,10 +376,10 @@
   
     /* ===== Kişisel puan ===== */
     .modal-rating { display:grid; grid-template-columns:auto 1fr; grid-template-areas:"label label" "main stars"; align-items:end; column-gap:16px; margin:2px 0 22px; font:inherit; letter-spacing:0; color:var(--accent); }
-    .modal-rating .r-label { grid-area:label; margin-bottom:4px; color:#8a96a4; font:9.72px Arial,sans-serif; letter-spacing:.13em; text-transform:uppercase; }
+    .modal-rating .r-label { grid-area:label; margin-bottom:4px; color:#8a96a4; font:9.72px var(--sans); letter-spacing:.13em; text-transform:uppercase; }
     .modal-rating .r-main { grid-area:main; display:flex; align-items:baseline; gap:3px; line-height:.9; }
-    .modal-rating .r-main b { font-family:"Merriweather",Georgia,serif; font-size:58px; font-weight:700; letter-spacing:-.04em; color:currentColor; }
-    .modal-rating .r-main i { font:400 18px "Merriweather",Georgia,serif; font-style:normal; color:#8a96a4; }
+    .modal-rating .r-main b { font-family:var(--serif); font-size:58px; font-weight:700; letter-spacing:-.04em; color:currentColor; }
+    .modal-rating .r-main i { font:400 18px var(--serif); font-style:normal; color:#8a96a4; }
     .modal-rating .r-stars { grid-area:stars; padding-bottom:7px; font-size:19px; letter-spacing:3px; color:currentColor; white-space:nowrap; }
     .modal-rating .r-stars em { font-style:normal; font-size:.95em; }
     .modal-rating .r-stars s { text-decoration:none; color:rgba(200,215,230,.18); }
@@ -388,17 +388,164 @@
     .modal-rating.t3 { color:#b9c3ce; }
     .modal-rating.t4 { color:#7f8b99; }
     .modal-rating.none { grid-template-areas:"label" "main"; }
-    .modal-rating .r-none { grid-area:main; color:#7f8b99; font:italic 16px "Merriweather",Georgia,serif; }
+    .modal-rating .r-none { grid-area:main; color:#7f8b99; font:italic 16px var(--serif); }
     @media (max-width:520px) { .modal-rating .r-main b { font-size:46px; } .modal-rating .r-stars { font-size:16px; letter-spacing:2px; } .modal-rating { margin-bottom:16px; } }
     /* ===== En İyi 100 ===== */
-    .rank-mark { position:absolute; z-index:2; top:0; left:0; min-width:34px; padding:5px 8px 6px; border-radius:6px 0 8px 0; background:rgba(0,0,0,.78); color:#fff; font:700 15px/1 "Merriweather",Georgia,serif; text-align:center; font-variant-numeric:lining-nums tabular-nums; backdrop-filter:blur(4px); }
+    .rank-mark { position:absolute; z-index:2; top:0; left:0; min-width:34px; padding:5px 8px 6px; border-radius:6px 0 8px 0; background:rgba(0,0,0,.78); color:#fff; font:700 15px/1 var(--serif); text-align:center; font-variant-numeric:lining-nums tabular-nums; backdrop-filter:blur(4px); }
     .rank-mark.top10 { background:var(--accent); color:#06121a; }
     .film.ranked .fav-mark { display:none; }
-    .top-note { margin:-4px 0 14px; color:var(--muted); font:12px Arial,sans-serif; letter-spacing:.04em; }
+    .top-note { margin:-4px 0 14px; color:var(--muted); font:12px var(--sans); letter-spacing:.04em; }
     @media (max-width:520px) { .rank-mark { min-width:26px; padding:4px 6px 5px; font-size:12px; } }
+    /* ===== Sinema: yazı tipi, letterbox, projektör, film şeridi ===== */
+    :root { --serif:"Fraunces",Georgia,"Times New Roman",serif; --sans:"Inter",Arial,sans-serif; --band:14px;
+      --hole:rgba(200,215,230,.17); --strip-bg:#05080b; --strip-edge:rgba(200,215,230,.13);
+      --fs-holes:repeating-linear-gradient(90deg,transparent 0 4px,var(--hole) 4px 9px,transparent 9px 13px);
+      --fs-base:linear-gradient(180deg,var(--strip-edge) 0 1px,var(--strip-bg) 1px calc(100% - 1px),var(--strip-edge) calc(100% - 1px)); }
+    body { padding:var(--band) 0; background-color:#0f1419; background-image:none; }
+    h1, h2, .modal h3, .stat strong, .panel h3 { font-family:var(--serif); }
+    h1 { font-weight:300; letter-spacing:-.03em; }
+    .section-head h2, .stats > h2 { font-weight:300; letter-spacing:-.02em; }
+    .modal h3 { font-weight:300; letter-spacing:-.025em; }
+    .stat strong { font-weight:300; }
+    .modal-rating .r-main b { font-weight:400; letter-spacing:-.03em; }
+    .review { font-family:var(--serif); font-size:16px; font-weight:300; }
+    html::before, html::after { content:""; position:fixed; left:0; right:0; z-index:35; height:var(--band); background:#000; pointer-events:none; }
+    html::before { top:0; box-shadow:0 1px 0 rgba(255,255,255,.035), 0 6px 18px rgba(0,0,0,.5); }
+    html::after { bottom:0; box-shadow:0 -1px 0 rgba(255,255,255,.035), 0 -6px 18px rgba(0,0,0,.5); }
+    body::before { background:
+        radial-gradient(ellipse 26% 92% at 50% -6%, rgba(130,205,248,.085), rgba(110,195,245,.03) 55%, transparent 78%),
+        radial-gradient(ellipse 58% 70% at 50% -12%, rgba(64,188,244,.075), transparent 72%),
+        radial-gradient(ellipse 14% 40% at 50% -4%, rgba(190,230,255,.06), transparent 70%),
+        linear-gradient(180deg,#17202a 0,#0f1419 62%,#0c1015); }
+    .shell::before { content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(ellipse 115% 95% at 50% 42%, transparent 52%, rgba(0,0,0,.28) 78%, rgba(0,0,0,.62) 100%); }
+    @property --amb { syntax:"<color>"; inherits:false; initial-value:rgba(0,0,0,0); }
+    .ambient { position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; background:radial-gradient(ellipse 85% 70% at 50% 38%, var(--amb), transparent 72%); transition:opacity .6s ease, --amb .6s ease; }
+    .ambient.on { opacity:.13; }
+    .hero, .collection-nav { border-bottom:0; background:var(--fs-holes) 0 calc(100% - 9px)/100% 3px no-repeat, var(--fs-holes) 0 calc(100% - 2px)/100% 3px no-repeat, var(--fs-base) 0 100%/100% 14px no-repeat; }
+    .stats, footer { border-top:0; background:var(--fs-holes) 0 2px/100% 3px no-repeat, var(--fs-holes) 0 9px/100% 3px no-repeat, var(--fs-base) 0 0/100% 14px no-repeat; }
+    .hero { padding-bottom:46px; }
+    .collection-nav { padding:2px 0 29px; }
+    .stats { padding-top:62px; scroll-margin-top:calc(var(--band) + 12px); }
+    footer { padding-top:36px; }
+    /* Kaydırma çubuğu */
+    html { scrollbar-width:thin; scrollbar-color:rgba(64,188,244,.45) #0a0e12; }
+    ::-webkit-scrollbar { width:8px; height:8px; } ::-webkit-scrollbar-track { background:#0a0e12; }
+    ::-webkit-scrollbar-thumb { background:rgba(64,188,244,.4); border:2px solid #0a0e12; border-radius:8px; } ::-webkit-scrollbar-thumb:hover { background:rgba(64,188,244,.7); }
+    .modal, .modal-left, .reel-track { scrollbar-width:thin; scrollbar-color:rgba(64,188,244,.42) transparent; }
+    .modal-left::-webkit-scrollbar-thumb, .modal::-webkit-scrollbar-thumb { background:rgba(64,188,244,.4); border:0; }
+    /* Bilet koçanı yıl düğmeleri */
+    .pill[data-year], .cal-years button { margin:0 1px; padding:8px 13px 8px 20px; border:0; border-radius:4px; color:#c7d1dc; font:500 11.5px var(--sans); letter-spacing:.06em; font-variant-numeric:tabular-nums;
+      background:repeating-linear-gradient(180deg,rgba(200,215,230,.38) 0 2px,transparent 2px 4px) 11px 50%/1px 60% no-repeat, rgba(200,215,230,.085);
+      -webkit-mask:radial-gradient(circle 5px at 0 50%,#0000 95%,#000) 0 0/51% 100% no-repeat, radial-gradient(circle 5px at 100% 50%,#0000 95%,#000) 100% 0/51% 100% no-repeat;
+      mask:radial-gradient(circle 5px at 0 50%,#0000 95%,#000) 0 0/51% 100% no-repeat, radial-gradient(circle 5px at 100% 50%,#0000 95%,#000) 100% 0/51% 100% no-repeat;
+      transition:background-color .2s, color .2s; }
+    .pill[data-year]:hover, .cal-years button:hover { color:#fff; background-color:rgba(64,188,244,.2); }
+    .pill[data-year].active, .cal-years button.on { color:#06121a; background:repeating-linear-gradient(180deg,rgba(6,18,26,.5) 0 2px,transparent 2px 4px) 11px 50%/1px 60% no-repeat, var(--accent); font-weight:600; }
+    @media (max-width:520px) { .pill[data-year].active, .cal-years button.on { background-position:10px 50%; } }
+    .pill[data-year]:focus-visible, .cal-years button:focus-visible { outline:0; box-shadow:inset 0 0 0 2px #fff; }
+    /* Afiş parlaması + 3B eğim */
+    .film .poster { --rx:0deg; --ry:0deg; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .2s; }
+    .film .poster.tilting { transition:transform .08s linear, box-shadow .2s; }
+    .film:hover .poster, .film:focus-visible .poster { transform:perspective(800px) translateY(-4px) rotateX(var(--rx)) rotateY(var(--ry)); }
+    .film .poster::after { content:""; position:absolute; z-index:3; inset:0; pointer-events:none; background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.05) 40%,rgba(255,255,255,.3) 48%,rgba(255,255,255,.07) 55%,transparent 63%); mix-blend-mode:screen; transform:translateX(-130%); }
+    .film:hover .poster::after { transform:translateX(130%); transition:transform .85s ease; }
+    @media (hover:none) { .film .poster::after { display:none; } }
+    /* ===== İstatistikler: sinemasever defteri ===== */
+    .stats > h2 { font-size:clamp(32px,4.2vw,48px); line-height:1.05; }
+    .stats .lead { margin-bottom:24px; }
+    .panels { gap:52px 44px; margin-top:44px; }
+    .panel { padding:0; border:0; border-radius:0; background:none; }
+    .panel h3 { font-size:23px; font-weight:400; letter-spacing:-.015em; }
+    .panel p { margin-bottom:18px; }
+    .kick { display:block; margin-bottom:7px; color:var(--accent); font:600 9.5px var(--sans); letter-spacing:.26em; }
+    .tiles { gap:14px; margin-bottom:0; }
+    .ticket { --nx:calc(100% - 36px); position:relative; display:grid; grid-template-columns:minmax(0,1fr) 36px; min-height:122px; color:var(--ink);
+      background:linear-gradient(125deg,rgba(64,188,244,.17),rgba(64,188,244,.06) 55%,rgba(200,215,230,.05));
+      -webkit-mask:radial-gradient(circle 9px at 0 50%,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 0,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 100%,#0000 95%,#000), radial-gradient(circle 3.5px at 100% 50%,#0000 95%,#000) 100% 0/100% 11px repeat-y;
+      -webkit-mask-composite:source-in;
+      mask:radial-gradient(circle 9px at 0 50%,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 0,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 100%,#0000 95%,#000), radial-gradient(circle 3.5px at 100% 50%,#0000 95%,#000) 100% 0/100% 11px repeat-y;
+      mask-composite:intersect; }
+    .tk-main { display:flex; flex-direction:column; min-width:0; padding:14px 12px 12px 22px; }
+    .tk-kind { color:var(--accent); font:600 8.5px var(--sans); letter-spacing:.24em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ticket strong { margin-top:9px; font:300 34px/1 var(--serif); font-variant-numeric:lining-nums tabular-nums; letter-spacing:-.01em; white-space:nowrap; }
+    .tk-label { margin-top:7px; font:500 10px/1.3 var(--sans); letter-spacing:.13em; text-transform:uppercase; }
+    .tk-no { margin-top:auto; padding-top:10px; color:var(--muted); font:500 9.5px var(--sans); letter-spacing:.16em; font-variant-numeric:tabular-nums slashed-zero; white-space:nowrap; }
+    .tk-stub { display:flex; align-items:center; justify-content:center; border-left:1.5px dashed rgba(200,215,230,.3); background:rgba(64,188,244,.07); }
+    .tk-stub span { writing-mode:vertical-rl; transform:rotate(180deg); color:rgba(200,215,230,.6); font:700 8.5px var(--sans); letter-spacing:.3em; white-space:nowrap; }
+    /* Aylık film şeridi */
+    .reel { display:grid; gap:9px; }
+    .reel-row { display:grid; grid-template-columns:82px minmax(0,1fr); align-items:center; gap:12px; }
+    .reel-m { font:400 15px/1.2 var(--serif); }
+    .reel-m small { display:block; margin-top:3px; color:var(--muted); font:500 9.5px var(--sans); letter-spacing:.12em; }
+    .reel-track { min-width:0; overflow-x:auto; overflow-y:hidden; padding:10px 8px; border-radius:2px; background:var(--fs-holes) 0 2px/100% 3px repeat-x, var(--fs-holes) 0 calc(100% - 2px)/100% 3px repeat-x, var(--fs-base) 0 0/100% 100%; background-attachment:local; }
+    .frames { display:flex; gap:5px; width:max-content; }
+    .fr { position:relative; flex:0 0 auto; display:block; width:30px; aspect-ratio:2/3; overflow:hidden; border-radius:2px; background:var(--cover,#1b232c); box-shadow:0 0 0 1px rgba(255,255,255,.07); cursor:default; }
+    .fr img, .wt img, .fp img { display:block; width:100%; height:100%; object-fit:cover; }
+    .fr:hover { box-shadow:0 0 0 1.5px var(--accent); }
+    .reel-empty { display:block; padding-left:4px; color:rgba(200,215,230,.28); font:italic 300 12.5px/45px var(--serif); }
+    /* Afiş yığınları */
+    .wall { --k:8; --tg:2px; display:flex; align-items:stretch; justify-content:space-around; gap:18px; height:292px; }
+    .wcol { flex:1 1 0; min-width:0; max-width:180px; display:flex; flex-direction:column; }
+    .wbox { flex:1; min-height:0; display:flex; flex-direction:column; justify-content:flex-end; }
+    .wbox b { margin-bottom:6px; font:300 22px/1 var(--serif); text-align:center; font-variant-numeric:lining-nums; }
+    .wtiles { display:flex; flex-wrap:wrap-reverse; gap:var(--tg); }
+    .wt { display:block; width:calc((100% - (var(--k) - 1) * var(--tg)) / var(--k)); aspect-ratio:2/3; overflow:hidden; border-radius:1px; background:var(--cover,#1b232c); cursor:default; }
+    .wt:hover { position:relative; z-index:1; outline:1.5px solid var(--accent); }
+    .wy { margin-top:8px; padding-top:8px; border-top:1px solid rgba(200,215,230,.2); color:var(--muted); text-align:center; font:500 11px var(--sans); letter-spacing:.14em; }
+    /* Puan dağılımı */
+    #rateBars { height:236px; gap:8px; border-bottom-color:rgba(200,215,230,.2); }
+    #rateBars .bar i { max-width:34px; border-radius:2px 2px 0 0; background:linear-gradient(180deg,rgba(130,210,250,.95),rgba(64,188,244,.1)); box-shadow:0 0 18px -5px rgba(64,188,244,.55); opacity:.88; }
+    #rateBars .bar:hover i { opacity:1; }
+    #rateBars .bar b { font:300 14px var(--serif); }
+    #rateAxis span { padding-top:2px; font:400 13px var(--serif); }
+    /* Yönetmen kartları */
+    .dirs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px 16px; }
+    .dcard { display:flex; flex-direction:column; align-items:center; min-width:0; padding:20px 10px 16px; border:0; border-radius:10px; background:none; color:inherit; text-align:center; outline:none; transition:background-color .2s; }
+    .dcard:hover, .dcard:focus-visible { background-color:rgba(200,215,230,.04); }
+    .dcard:focus-visible { box-shadow:inset 0 0 0 2px var(--accent); }
+    .fan { position:relative; display:block; width:100%; height:152px; }
+    .fp { --spread:9deg; position:absolute; left:50%; bottom:4px; width:78px; aspect-ratio:2/3; margin-left:-39px; overflow:hidden; border-radius:4px; background:var(--cover,#1b232c); box-shadow:0 8px 18px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); transform-origin:50% 125%; transform:rotate(calc(var(--i) * var(--spread))); transition:transform .4s cubic-bezier(.2,.7,.2,1); }
+    .dcard:hover .fp, .dcard:focus-visible .fp { --spread:13deg; }
+    .credit { margin-top:16px; color:var(--muted); font:600 9px/1.6 var(--sans); letter-spacing:.24em; }
+    .credit em { color:var(--ink); font:400 15px/1.3 var(--serif); font-style:normal; letter-spacing:.11em; }
+    .credit .cnt { color:var(--accent); letter-spacing:.1em; font-size:10px; }
+    /* Film barkodu */
+    .barcode { position:relative; height:80px; border-radius:2px; background:#0b0f14; box-shadow:0 0 0 1px rgba(200,215,230,.1), 0 10px 30px rgba(0,0,0,.35); cursor:crosshair; touch-action:pan-y; }
+    .bc-mark { position:absolute; top:-5px; bottom:-5px; width:2px; margin-left:-1px; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.7); opacity:0; pointer-events:none; transition:opacity .15s; }
+    .bc-mark.on { opacity:1; }
+    .bc-axis { display:flex; justify-content:space-between; gap:12px; margin-top:9px; color:var(--muted); font:500 10px var(--sans); letter-spacing:.12em; text-transform:uppercase; }
+    @media (max-width:800px) { .panels { gap:44px; } }
+    @media (max-width:520px) {
+      :root { --band:7px; }
+      .hero { padding-bottom:39px; }
+      .collection-nav { padding:2px 15px 27px; }
+      .stats { padding-top:56px; }
+      .pill[data-year], .cal-years button { padding:7px 11px 7px 18px; font-size:10.8px; background-position:10px 50%; }
+      .ticket { --nx:calc(100% - 28px); grid-template-columns:minmax(0,1fr) 28px; min-height:112px; }
+      .tk-main { padding:12px 8px 10px 16px; }
+      .tk-kind { font-size:8px; letter-spacing:.2em; } .tk-en { display:none; }
+      .ticket strong { font-size:27px; }
+      .tk-label { font-size:9px; letter-spacing:.08em; }
+      .tk-no { font-size:8.5px; letter-spacing:.08em; }
+      .tk-stub span { font-size:7.5px; letter-spacing:.24em; }
+      .reel-row { grid-template-columns:58px minmax(0,1fr); gap:8px; }
+      .reel-m { font-size:13px; }
+      .fr { width:26px; }
+      .wall { height:248px; gap:12px; }
+      .dirs { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 8px; }
+      .dcard { padding:14px 4px 12px; }
+      .fan { height:116px; }
+      .fp { width:56px; margin-left:-28px; --spread:8deg; }
+      .dcard:hover .fp, .dcard:focus-visible .fp { --spread:10deg; }
+      .credit { margin-top:12px; font-size:8px; letter-spacing:.18em; }
+      .credit em { font-size:13px; letter-spacing:.06em; }
+      .barcode { height:64px; }
+      .bc-axis { font-size:9px; }
+    }
   </style>
 </head>
 <body>
+  <div class="ambient" id="ambient" aria-hidden="true"></div>
   <div class="shell">
     <header class="topbar">
       <div class="topright"><span class="profile-label">LETTERBOXD · BRENSVENKA</span><a class="import-btn" href="#stats">İstatistikler</a><a class="import-btn" href="https://letterboxd.com/brensvenka/" target="_blank" rel="noreferrer">Profilim ↗</a></div>
@@ -417,10 +564,11 @@
         <p class="lead" id="statsLead"></p>
         <div class="tiles" id="statTiles"></div>
         <div class="panels">
-          <div class="panel"><h3>Yıllara göre izlediklerim</h3><p>Günlüğe düşülen her izleme, tekrar izlemeler dahil</p><div class="bars" id="yearBars"></div><div class="axis" id="yearAxis"></div></div>
-          <div class="panel"><h3>Puan dağılımı</h3><p>Puan verdiğim filmler, 1–10</p><div class="bars" id="rateBars"></div><div class="axis" id="rateAxis"></div></div>
-          <div class="panel wide"><h3>En çok izlediğim yönetmenler</h3><p>Arşivdeki film sayısına göre</p><div class="hbars" id="dirBars"></div></div>
-          <div class="panel wide"><div class="cal-head"><div><h3>İzleme takvimi</h3><p id="calLead"></p></div><div class="cal-years" id="calYears"></div></div><div class="cal-wrap"><div class="cal-months" id="calMonths"></div><div class="cal-body"><div class="cal-days"><span></span><span>Sal</span><span></span><span>Per</span><span></span><span>Cmt</span><span></span></div><div class="cal" id="cal"></div></div></div><div class="cal-legend">az <i style="background:rgba(200,215,230,.07)"></i><i class="l1" style="background:#1b4560"></i><i style="background:#2a7aa3"></i><i style="background:#40bcf4"></i> çok</div></div>
+          <div class="panel wide"><div class="cal-head"><div><span class="kick">MAKARA 01</span><h3>Aylık film şeridi</h3><p id="calLead"></p></div><div class="cal-years" id="calYears"></div></div><div class="reel" id="reel"></div></div>
+          <div class="panel"><span class="kick">MAKARA 02</span><h3>Yıllara göre izlediklerim</h3><p>Günlüğe düşülen her izleme, tekrar izlemeler dahil</p><div class="wall" id="yearWall"></div></div>
+          <div class="panel"><span class="kick">MAKARA 03</span><h3>Puan dağılımı</h3><p>Puan verdiğim filmler, 1–10</p><div class="bars" id="rateBars"></div><div class="axis" id="rateAxis"></div></div>
+          <div class="panel wide"><span class="kick">MAKARA 04</span><h3>En çok izlediğim yönetmenler</h3><p>Arşivdeki film sayısına göre · karta dokununca en yüksek puan verdiğim filmi açılır</p><div class="dirs" id="dirCards"></div></div>
+          <div class="panel wide"><span class="kick">MAKARA 05</span><h3>Arşivimin renkleri</h3><p>İzleme sırasıyla her filmin baskın rengi</p><div class="barcode" id="barcode" role="img"><i class="bc-mark" id="bcMark"></i></div><div class="bc-axis" id="bcAxis"></div></div>
         </div>
       </section>
     </main>
@@ -446,7 +594,7 @@
   function safeColor(c){return typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c)?c:''}
   function safePoster(u){return typeof u==='string'&&/^https:\/\/a\.ltrbxd\.com\/[A-Za-z0-9\/._~%=&?-]+$/.test(u)}
   function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-  function card(f,i){const c0=safeColor(f.colors?.[0]),c1=safeColor(f.colors?.[1]);const color=c0?c0:`linear-gradient(145deg,${palettes[i%palettes.length][0]},${palettes[i%palettes.length][1]})`;const tint=c1?`;--tint:${c1}`:'';const poster=safePoster(f.poster)?escapeHtml(f.poster):'';const rate=f.rating==null?'<span class="rate unrated">puansız</span>':`<span class="rate${f.rating===10?' perfect':''}">${Number(f.rating).toFixed(0)}/10</span>`;const sub=[f.year,f.director].filter(Boolean).map(escapeHtml).join(' · ');const rk=activeCollection==='top100'?topRank.get(f.slug):0;return `<div class="film${rk?' ranked':''}" tabindex="0" role="button" aria-label="${rk?rk+'. ':''}${escapeHtml(f.title)} detaylarını aç" data-id="${i}"><div class="poster" style="--cover:${color}${tint}">${poster?`<img class="cover-art" src="${thumbUrl(poster)}" data-full="${poster}" alt="${escapeHtml(f.title)} afişi" loading="lazy" decoding="async">`:`<div class="noimg">${escapeHtml(f.art||f.title)}</div>`}${rk?`<span class="rank-mark${rk<=10?' top10':''}">${rk}</span>`:''}${f.favorite?'<span class="fav-mark" title="Favori">★</span>':''}${rate}</div><div class="meta"><div class="t">${escapeHtml(f.title)}</div><div class="y">${sub}</div></div></div>`}
+  function card(f,i){const c0=safeColor(f.colors?.[0]),c1=safeColor(f.colors?.[1]);const color=c0?c0:`linear-gradient(145deg,${palettes[i%palettes.length][0]},${palettes[i%palettes.length][1]})`;const tint=c1?`;--tint:${c1}`:'';const poster=safePoster(f.poster)?escapeHtml(f.poster):'';const rate=f.rating==null?'<span class="rate unrated">puansız</span>':`<span class="rate${f.rating===10?' perfect':''}">${Number(f.rating).toFixed(0)}/10</span>`;const sub=[f.year,f.director].filter(Boolean).map(escapeHtml).join(' · ');const rk=activeCollection==='top100'?topRank.get(f.slug):0;const amb=c1||c0;return `<div class="film${rk?' ranked':''}" tabindex="0" role="button" aria-label="${rk?rk+'. ':''}${escapeHtml(f.title)} detaylarını aç" data-id="${i}"${amb?` data-c="${amb}"`:''}><div class="poster" style="--cover:${color}${tint}">${poster?`<img class="cover-art" src="${thumbUrl(poster)}" data-full="${poster}" alt="${escapeHtml(f.title)} afişi" loading="lazy" decoding="async">`:`<div class="noimg">${escapeHtml(f.art||f.title)}</div>`}${rk?`<span class="rank-mark${rk<=10?' top10':''}">${rk}</span>`:''}${f.favorite?'<span class="fav-mark" title="Favori">★</span>':''}${rate}</div><div class="meta"><div class="t">${escapeHtml(f.title)}</div><div class="y">${sub}</div></div></div>`}
   function render(){renderNav();const list=filtered();$('#statFilms').textContent=films.length;$('#statRated').textContent=films.filter(f=>f.rating!=null).length;const pageSize=activeCollection==='top100'?100:32;const pageCount=Math.max(1,Math.ceil(list.length/pageSize));activePage=Math.min(activePage,pageCount);const start=(activePage-1)*pageSize;const end=Math.min(start+pageSize,list.length);$('#countLabel').textContent=list.length?`${start+1}–${end} / ${list.length} film`:'0 film';const title=activeCollection==='top100'?'En İyi 100':activeCollection==='favorites'?'Favoriler':activeCollection==='recent'?'Son izlediklerim':activeCollection==='year'?`${activeYear} · izlediklerim`:'Film raflarım';const pagination=$('#pagination');if(!list.length){shelves.innerHTML='<div class="no-results">Bu rafta henüz film yok.</div>';pagination.innerHTML='';pagination.hidden=true;return}const pageFilms=list.slice(start,end);const upd=window.TOP100&&window.TOP100.updated?new Date(window.TOP100.updated):null;const note=activeCollection==='top100'?`<p class="top-note">Kendi sıralamam, 4.5 ve 5 yıldız verdiklerimden${upd&&!isNaN(upd)?' · son güncelleme '+upd.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'}):''}</p>`:'';const html=`<div class="section-head"><h2>${title}</h2></div>${note}<div class="film-grid">${pageFilms.map((f,j)=>card(f,start+j)).join('')}</div>`;shelves.innerHTML=html;shelves.querySelectorAll('img.cover-art[data-full]').forEach(img=>img.addEventListener('error',()=>{const f=img.dataset.full;img.removeAttribute('data-full');if(f&&img.src!==f)img.src=f},{once:true}));if(pageCount>1){pagination.innerHTML=`<button class="page-button" data-page="${activePage-1}" ${activePage===1?'disabled':''}>‹ Önceki</button><span class="page-status">Sayfa ${activePage} / ${pageCount}</span><form class="page-jump" id="pageJumpForm"><label for="pageJumpInput">Sayfaya git</label><input id="pageJumpInput" type="number" min="1" max="${pageCount}" value="${activePage}" inputmode="numeric" aria-label="Gitmek istediğiniz sayfa" required><button class="page-button" type="submit">Git</button></form><button class="page-button" data-page="${activePage+1}" ${activePage===pageCount?'disabled':''}>Sonraki ›</button>`;pagination.hidden=false;pagination.querySelectorAll('[data-page]').forEach(button=>button.onclick=()=>{activePage=Number(button.dataset.page);render();toShelf()});$('#pageJumpForm').onsubmit=e=>{e.preventDefault();const requested=Number($('#pageJumpInput').value);activePage=Math.max(1,Math.min(pageCount,Number.isFinite(requested)?Math.floor(requested):1));render();toShelf()}}else{pagination.innerHTML='';pagination.hidden=true}shelves.querySelectorAll('.film').forEach(el=>{el.onclick=()=>openFilm(list[Number(el.dataset.id)]);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}}})}
   function openFilm(f){$('#modalTitle').textContent=f.title;{const mr=$('#modalRating');if(f.rating==null){mr.className='modal-rating none';mr.innerHTML='<span class="r-label">Puanım</span><span class="r-none">Puan verilmedi</span>'}else{const r=Math.max(0,Math.min(10,Math.round(Number(f.rating))));const full=Math.floor(r/2),half=r%2;const tier=r>=9?'t1':r>=7?'t2':r>=5?'t3':'t4';mr.className='modal-rating '+tier;mr.innerHTML=`<span class="r-label">Puanım</span><span class="r-main"><b>${r}</b><i>/10</i></span><span class="r-stars" aria-label="${r/2} yıldız">${'★'.repeat(full)}${half?'<em>½</em>':''}<s>${'★'.repeat(5-full-half)}</s></span>`}}const watchCount=(f.watchDates||[]).length;const watchText=f.watched?`${dayDate(f.watched).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'})}${watchCount>1?` · ${watchCount} kez izlendi`:''}`:'Günlük kaydı yok';const info=[['Yönetmen',f.director||'—'],['İzleme tarihi',watchText],['Çıkış yılı',f.year||'—'],['IMDb puanı',f.imdb!=null?`${Number(f.imdb).toFixed(1)} / 10`:'—']];$('#modalDetails').innerHTML=info.map(x=>`<div class="detail"><span>${x[0]}</span><strong>${escapeHtml(x[1])}</strong></div>`).join('');const review=$('#modalReview');review.textContent=f.review||'';review.style.display=f.review?'block':'none';$('.disc-label').textContent=f.art||f.title;const discColor=`linear-gradient(145deg,${safeColor(f.colors?.[0])||'#39433d'},${safeColor(f.colors?.[1])||'#b58b61'})`;const isPoster=safePoster(f.poster);const discBg=u=>`linear-gradient(145deg,rgba(25,20,15,.45),rgba(25,20,15,.2)),url("${u}")`;$('.disc-label').style.backgroundImage=isPoster?discBg(thumbUrl(f.poster)):discColor;if(isPoster){const probe=new Image();probe.onerror=()=>{$('.disc-label').style.backgroundImage=discBg(f.poster)};probe.src=thumbUrl(f.poster)}if(isPoster)$('.disc-label').textContent='';$('.disc-label').style.backgroundSize='cover';$('.disc-label').style.backgroundPosition='center';decorateModal(f);$('#overlay').classList.add('open');document.body.style.overflow='hidden';$('#closeModal').focus()}
   function closeModal(){$('#overlay').classList.remove('open');document.body.style.overflow=''}$('#closeModal').onclick=closeModal;$('#overlay').onclick=e=>{if(e.target===$('#overlay'))closeModal()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});sortSelect.onchange=()=>{activePage=1;render()};
@@ -454,20 +602,34 @@
   const dirNames=f=>(f.director||'').split(/\s*,\s*/).filter(Boolean);
   function decorateModal(f){$('.modal-left').scrollTop=0;$('.modal').scrollTop=0;const bg=$('#modalBg');bg.style.backgroundImage=safePoster(f.poster)?`url("${thumbUrl(f.poster)}")`:'none';bg.style.backgroundColor=safeColor(f.colors?.[0])||'#151b22';const names=dirNames(f);const more=$('#modalMore');const others=names.length?films.filter(x=>x!==f&&dirNames(x).some(n=>names.includes(n))).sort((a,b)=>(b.rating??-1)-(a.rating??-1)).slice(0,10):[];if(!others.length){more.hidden=true;more.innerHTML='';return}more.hidden=false;more.innerHTML=`<h4>${names.length>1?'Yönetmenlerden':'Yönetmenden'} diğerleri</h4><div class="more-row">${others.map((x,k)=>{const c=safeColor(x.colors?.[0]),t=safeColor(x.colors?.[1]);return `<button type="button" data-k="${k}" aria-label="${escapeHtml(x.title)} detaylarını aç"><div class="mp" style="${c?`--cover:${c};`:''}${t?`--tint:${t}`:''}">${safePoster(x.poster)?`<img src="${escapeHtml(thumbUrl(x.poster))}" data-full="${escapeHtml(x.poster)}" alt="" loading="lazy">`:''}</div><span>${escapeHtml(x.title)}</span></button>`}).join('')}</div>`;more.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>openFilm(others[Number(b.dataset.k)]));more.querySelectorAll('img[data-full]').forEach(img=>img.addEventListener('error',()=>{const u=img.dataset.full;img.removeAttribute('data-full');if(u&&img.src!==u)img.src=u},{once:true}))}
   $('#randomBtn').onclick=()=>{const pool=films.filter(f=>safePoster(f.poster));const list=pool.length?pool:films;if(list.length)openFilm(list[Math.floor(Math.random()*list.length)])};
-  const tip=$('#tip');function showTip(el){const t=el.getAttribute('data-tip');if(!t)return;const [a,...b]=t.split('\n');tip.innerHTML=`<b>${escapeHtml(a)}</b>${b.map(escapeHtml).join('<br>')}`;tip.classList.add('on');const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;let x=r.left+r.width/2-w/2;x=Math.max(8,Math.min(innerWidth-w-8,x));let y=r.top-h-8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px'}
-  const statsEl=$('#stats');statsEl.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el)});statsEl.addEventListener('mouseout',e=>{if(e.target.closest('[data-tip]'))tip.classList.remove('on')});statsEl.addEventListener('click',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el);else tip.classList.remove('on')});addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
+  const tip=$('#tip');function placeTip(t,r){const [a,...b]=t.split('\n');tip.innerHTML=`<b>${escapeHtml(a)}</b>${b.map(escapeHtml).join('<br>')}`;tip.classList.add('on');const w=tip.offsetWidth,h=tip.offsetHeight;let x=r.left+r.width/2-w/2;x=Math.max(8,Math.min(innerWidth-w-8,x));let y=r.top-h-8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px'}
+  function showTip(el){const t=el.getAttribute('data-tip');if(t)placeTip(t,el.getBoundingClientRect())}
+  const statsEl=$('#stats');statsEl.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el)});statsEl.addEventListener('mouseout',e=>{if(e.target.closest('[data-tip]'))tip.classList.remove('on')});statsEl.addEventListener('click',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el);else if(!e.target.closest('#barcode'))tip.classList.remove('on')});addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
+  const tinyUrl=u=>u.replace('-0-600-0-900-','-0-150-0-225-');
+  function imgFallback(root){root.querySelectorAll('img[data-full]').forEach(img=>img.addEventListener('error',()=>{const u=img.dataset.full;img.removeAttribute('data-full');if(u&&img.src!==u)img.src=u},{once:true}))}
+  function mini(f,cls,t){const c=safeColor(f.colors?.[0]);return `<i class="${cls}"${c?` style="--cover:${c}"`:''} data-tip="${escapeHtml(t)}">${safePoster(f.poster)?`<img src="${escapeHtml(tinyUrl(f.poster))}" data-full="${escapeHtml(f.poster)}" alt="" loading="lazy" decoding="async">`:''}</i>`}
+  const longDay=d=>dayDate(d).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
   function renderStats(){const all=films;const entries=all.flatMap(f=>(f.watchDates||[]).map(d=>({d,f})));const rated=all.filter(f=>f.rating!=null);const avg=rated.length?(rated.reduce((s,f)=>s+f.rating,0)/rated.length):0;const rewatched=all.filter(f=>(f.watchDates||[]).length>1).length;const days=[...new Set(entries.map(e=>e.d))].sort();let best=0,run=0,prev=null;for(const d of days){const t=Date.parse(d+'T00:00:00Z');run=prev!==null&&t-prev===864e5?run+1:1;best=Math.max(best,run);prev=t}
     const fmt=n=>n.toLocaleString('tr-TR');$('#statsLead').textContent=days.length?`${dayDate(days[0]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} – ${dayDate(days[days.length-1]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} arası günlük kayıtları`:'';
-    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı'],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan'],[fmt(rewatched),'Tekrar izlenen film'],[`${best} gün`,'En uzun seri']].map(([v,l])=>`<div class="tile"><strong>${v}</strong><span>${l}</span></div>`).join('');
-    const byYear={};entries.forEach(e=>{const y=e.d.slice(0,4);byYear[y]=(byYear[y]||0)+1});const ys=Object.keys(byYear).sort();const maxY=Math.max(1,...Object.values(byYear));$('#yearBars').innerHTML=ys.map(y=>`<div class="bar" data-tip="${y}\n${byYear[y]} izleme"><b>${byYear[y]}</b><i style="height:${byYear[y]/maxY*100*0.82}%"></i></div>`).join('');$('#yearAxis').innerHTML=ys.map(y=>`<span>${y}</span>`).join('');
+    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı',entries.length],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan',Math.round(avg*10)],[fmt(rewatched),'Tekrar izlenen film',rewatched],[`${best} gün`,'En uzun seri',best]].map(([v,l,n],i)=>`<div class="ticket"><div class="tk-main"><span class="tk-kind">GİRİŞ<span class="tk-en"> · ADMIT ONE</span></span><strong>${v}</strong><span class="tk-label">${l}</span><span class="tk-no">Nº ${String(i+1).padStart(2,'0')}-${String(n).padStart(6,'0')}</span></div><div class="tk-stub" aria-hidden="true"><span>ADMIT ONE</span></div></div>`).join('');
+    const log=[...entries].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);const byYear=new Map();log.forEach(e=>{const y=e.d.slice(0,4);if(!/^\d{4}$/.test(y))return;const v=byYear.get(y)||[];v.push(e);byYear.set(y,v)});const ys=[...byYear.keys()].sort();const maxY=Math.max(1,...ys.map(y=>byYear.get(y).length));const wall=$('#yearWall');
+    wall.innerHTML=ys.map(y=>{const l=byYear.get(y);return `<div class="wcol"><div class="wbox"><b>${l.length}</b><div class="wtiles">${l.map(e=>mini(e.f,'wt',`${e.f.title}\n${longDay(e.d)}`)).join('')}</div></div><span class="wy">${y}</span></div>`}).join('');imgFallback(wall);
+    const fitWall=()=>{const box=wall.querySelector('.wbox');if(!box)return;const b=box.querySelector('b');const W=box.clientWidth,H=box.clientHeight-(b?b.offsetHeight+6:0);let k=1,g=2;for(;k<80;k++){g=k>8?1:2;const tw=(W-(k-1)*g)/k,rows=Math.ceil(maxY/k);if(rows*tw*1.5+(rows-1)*g<=H)break}wall.style.setProperty('--k',k);wall.style.setProperty('--tg',g+'px')};if(window.ResizeObserver)new ResizeObserver(fitWall).observe(wall);fitWall();
     const rc=Array.from({length:10},(_,i)=>rated.filter(f=>f.rating===i+1).length);const maxR=Math.max(1,...rc);$('#rateBars').innerHTML=rc.map((c,i)=>`<div class="bar" data-tip="${i+1}/10\n${c} film"><b>${c||''}</b><i style="height:${c/maxR*100*0.82}%"></i></div>`).join('');$('#rateAxis').innerHTML=rc.map((_,i)=>`<span>${i+1}</span>`).join('');
-    const dc=new Map();all.forEach(f=>dirNames(f).forEach(n=>{const v=dc.get(n)||[];v.push(f);dc.set(n,v)}));const top=[...dc].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'tr')).slice(0,10);const maxD=Math.max(1,...top.map(t=>t[1].length));$('#dirBars').innerHTML=top.map(([n,l])=>`<div class="hbar" data-tip="${escapeHtml(n)}\n${l.slice(0,6).map(f=>f.title).join(', ').replace(/"/g,'&quot;')}${l.length>6?' …':''}"><span class="n">${escapeHtml(n)}</span><span class="track"><i style="width:${l.length/maxD*100}%"></i></span><span class="c">${l.length}</span></div>`).join('');
-    const calYears=[...new Set(days.map(d=>d.slice(0,4)))].sort((a,b)=>b-a);let calYear=calYears[0];const byDay=new Map();entries.forEach(e=>{const v=byDay.get(e.d)||[];v.push(e.f.title);byDay.set(e.d,v)});
-    const drawCal=()=>{$('#calYears').innerHTML=calYears.map(y=>`<button type="button" class="${y===calYear?'on':''}" data-y="${y}">${y}</button>`).join('');$('#calYears').querySelectorAll('[data-y]').forEach(b=>b.onclick=()=>{calYear=b.dataset.y;drawCal()});const y=Number(calYear);const start=new Date(Date.UTC(y,0,1));const off=(start.getUTCDay()+6)%7;const cells=[];for(let k=0;k<off;k++)cells.push('<i class="out"></i>');let total=0,active=0;const months=Array(53).fill('');for(let t=start.getTime();new Date(t).getUTCFullYear()===y;t+=864e5){const d=new Date(t);const key=d.toISOString().slice(0,10);const l=byDay.get(key)||[];total+=l.length;if(l.length)active++;const lvl=l.length>=3?3:l.length;const col=Math.floor((cells.length)/7);if(d.getUTCDate()===1)months[col]=d.toLocaleDateString('tr-TR',{month:'short',timeZone:'UTC'});const label=d.toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});cells.push(`<i class="${lvl?'l'+lvl:''}" data-tip="${label}\n${l.length?l.length+' film: '+l.join(', ').replace(/"/g,'&quot;').replace(/</g,'&lt;'):'Film yok'}"></i>`)}$('#cal').innerHTML=cells.join('');$('#calMonths').innerHTML=months.map(m=>`<span>${m}</span>`).join('');$('#calLead').textContent=`${calYear}: ${total} izleme, ${active} farklı gün`;const w=document.querySelector('.cal-wrap');w.scrollLeft=calYear===calYears[0]?w.scrollWidth:0};if(calYears.length)drawCal()}
+    const dc=new Map();all.forEach(f=>dirNames(f).forEach(n=>{const v=dc.get(n)||[];v.push(f);dc.set(n,v)}));const top=[...dc].sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0],'tr')).slice(0,8);const byRating=(a,b)=>(b.rating??-1)-(a.rating??-1)||(b.imdb??0)-(a.imdb??0);const fanAt=[0,-1,1,-2,2];const dirCards=$('#dirCards');
+    dirCards.innerHTML=top.map(([n,l],k)=>{const best=[...l].sort(byRating).slice(0,5);return `<button type="button" class="dcard" data-d="${k}" aria-label="${escapeHtml(n)}, ${l.length} film. En yüksek puanlı filmini aç: ${escapeHtml(best[0].title)}"><span class="fan">${best.map((f,j)=>{const c=safeColor(f.colors?.[0]);return `<span class="fp" style="--i:${fanAt[j]};z-index:${5-Math.abs(fanAt[j])}${c?`;--cover:${c}`:''}">${safePoster(f.poster)?`<img src="${escapeHtml(tinyUrl(f.poster))}" data-full="${escapeHtml(f.poster)}" alt="" loading="lazy" decoding="async">`:''}</span>`}).join('')}</span><span class="credit">BİR <em>${escapeHtml(n.toLocaleUpperCase('tr-TR'))}</em> FİLMİ <span class="cnt">· ${l.length}</span></span></button>`}).join('');imgFallback(dirCards);dirCards.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>openFilm([...top[Number(b.dataset.d)][1]].sort(byRating)[0]));
+    const calYears=[...ys].reverse();let calYear=calYears[0];const monthNames=Array.from({length:12},(_,m)=>new Date(2020,m,1).toLocaleDateString('tr-TR',{month:'long'}));
+    const drawCal=()=>{$('#calYears').innerHTML=calYears.map(y=>`<button type="button" class="${y===calYear?'on':''}" data-y="${y}">${y}</button>`).join('');$('#calYears').querySelectorAll('[data-y]').forEach(b=>b.onclick=()=>{calYear=b.dataset.y;drawCal()});const ye=byYear.get(calYear)||[];const byM=Array.from({length:12},()=>[]);ye.forEach(e=>{const m=Number(e.d.slice(5,7))-1;if(m>=0&&m<12)byM[m].push(e)});const reel=$('#reel');reel.innerHTML=byM.map((l,m)=>`<div class="reel-row"><span class="reel-m">${monthNames[m]}<small>${l.length?l.length+' film':'—'}</small></span><div class="reel-track">${l.length?`<div class="frames">${l.map(e=>mini(e.f,'fr',`${e.f.title}\n${longDay(e.d)}`)).join('')}</div>`:'<span class="reel-empty">boş makara</span>'}</div></div>`).join('');imgFallback(reel);$('#calLead').textContent=`${calYear}: ${ye.length} izleme, ${new Set(ye.map(e=>e.d)).size} farklı gün`};if(calYears.length)drawCal();
+    const bc=$('#barcode'),seq=log.filter(e=>safeColor(e.f.colors?.[0]));if(seq.length){const n=seq.length,p=i=>(i/n*100).toFixed(4)+'%';bc.style.backgroundImage=`linear-gradient(90deg,${seq.map((e,i)=>`${safeColor(e.f.colors[0])} ${p(i)} ${p(i+1)}`).join(',')})`;bc.setAttribute('aria-label',`${n} izlemenin baskın renkleri, ${longDay(seq[0].d)} – ${longDay(seq[n-1].d)}`);$('#bcAxis').innerHTML=`<span>${escapeHtml(longDay(seq[0].d))}</span><span>${escapeHtml(longDay(seq[n-1].d))}</span>`;const mark=$('#bcMark');const at=e=>{const r=bc.getBoundingClientRect();const i=Math.max(0,Math.min(n-1,Math.floor((e.clientX-r.left)/r.width*n)));const s=seq[i];mark.style.left=((i+.5)/n*100)+'%';mark.classList.add('on');placeTip(`${s.f.title}\n${longDay(s.d)}`,{left:r.left+(i+.5)/n*r.width,width:0,top:r.top,bottom:r.bottom})};bc.addEventListener('pointermove',at);bc.addEventListener('pointerdown',at);bc.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;mark.classList.remove('on');tip.classList.remove('on')})}}
   renderStats();
 
   function toShelf(){const h=document.querySelector('.section-head');if(h&&h.getBoundingClientRect().top<0)h.scrollIntoView({block:'start'})}
-  document.addEventListener('click',e=>{if(!e.target.closest('#stats [data-tip]'))tip.classList.remove('on')});
+  document.addEventListener('click',e=>{if(!e.target.closest('#stats [data-tip], #barcode')){tip.classList.remove('on');$('#bcMark').classList.remove('on')}});
+  const ambient=$('#ambient'),finePointer=matchMedia('(hover: hover) and (pointer: fine)'),calm=matchMedia('(prefers-reduced-motion: reduce)');
+  function resetTilt(p){p.style.removeProperty('--rx');p.style.removeProperty('--ry');p.classList.remove('tilting')}
+  shelves.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||!finePointer.matches||calm.matches)return;const p=e.target.closest('.film .poster');if(!p)return;const r=p.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;p.style.setProperty('--ry',(x*12).toFixed(2)+'deg');p.style.setProperty('--rx',(-y*12).toFixed(2)+'deg');p.classList.add('tilting')});
+  shelves.addEventListener('mouseover',e=>{const f=e.target.closest('.film');if(!f||f.contains(e.relatedTarget))return;const c=safeColor(f.dataset.c);if(!c)return;ambient.style.setProperty('--amb',c);ambient.classList.add('on')});
+  shelves.addEventListener('mouseout',e=>{const p=e.target.closest('.film .poster');if(p&&!p.contains(e.relatedTarget))resetTilt(p);const f=e.target.closest('.film');if(!f||f.contains(e.relatedTarget))return;ambient.classList.remove('on')});
   document.addEventListener('keydown',e=>{if(e.key!=='Tab'||!$('#overlay').classList.contains('open'))return;const els=[...document.querySelectorAll('.modal button, .modal [href], .modal [tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);if(!els.length)return;const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}else if(!e.target.closest('.modal')){e.preventDefault();first.focus()}});
   render();(()=>{const u=window.LETTERBOXD_UPDATED_AT;if(!u)return;const d=new Date(u);if(isNaN(d))return;$('#syncStatus').textContent='Letterboxd eşitlendi · '+d.toLocaleString('tr-TR',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Istanbul'})})();
   const baseOpenFilm=openFilm;let modalCloseTimer=0,modalAnimationTimer=0;openFilm=function(f){clearTimeout(modalCloseTimer);clearTimeout(modalAnimationTimer);const overlay=$('#overlay');overlay.classList.remove('closing','opening');baseOpenFilm(f);void overlay.offsetWidth;requestAnimationFrame(()=>{if(overlay.classList.contains('open')){overlay.classList.add('opening');modalAnimationTimer=setTimeout(()=>overlay.classList.remove('opening'),780)}})};closeModal=function(){const overlay=$('#overlay');if(!overlay.classList.contains('open'))return;clearTimeout(modalAnimationTimer);clearTimeout(modalCloseTimer);overlay.classList.remove('opening');overlay.classList.add('closing');document.body.style.overflow='';modalCloseTimer=setTimeout(()=>overlay.classList.remove('open','closing'),310)};$('#closeModal').onclick=closeModal;
