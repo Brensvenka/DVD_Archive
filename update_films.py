@@ -146,6 +146,58 @@ def add_colors(films, limit=800):
     return done
 
 
+def make_og(films):
+    """Paylaşım önizlemesi için son izlenen afişlerden 1200x630 og.png üretir."""
+    try:
+        import io
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:
+        return False
+    W, H = 1200, 630
+    img = Image.new("RGB", (W, H), "#12171d")
+    d = ImageDraw.Draw(img)
+    for y in range(H):
+        t = y / H
+        c = tuple(round(a + (b - a) * t) for a, b in zip((24, 32, 42), (15, 19, 24)))
+        d.line([(0, y), (W, y)], fill=c)
+    recent = sorted([f for f in films if f.get("watched") and POSTER_RE.match(f.get("poster") or "")],
+                    key=lambda f: f["watched"], reverse=True)[:6]
+    pw, ph, gap = 170, 255, 14
+    x0 = (W - (6 * pw + 5 * gap)) // 2
+    for i, f in enumerate(recent):
+        try:
+            p = Image.open(io.BytesIO(fetch_bytes(f["poster"].replace("-0-600-0-900-", "-0-460-0-690-")))).convert("RGB")
+            p = p.resize((pw, ph), Image.LANCZOS)
+        except Exception:  # noqa: BLE001
+            p = Image.new("RGB", (pw, ph), (f.get("colors") or ["#1b232c"])[0])
+        x = x0 + i * (pw + gap)
+        sh = Image.new("RGB", (pw + 12, ph + 12), (8, 10, 13))
+        img.paste(sh, (x - 2, 336), None)
+        img.paste(p, (x, 330))
+    def font(names, size):
+        for n in names:
+            try:
+                return ImageFont.truetype(n, size)
+            except OSError:
+                pass
+        return ImageFont.load_default(size=size)
+    serif = font(["/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", "DejaVuSerif.ttf"], 70)
+    sans = font(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "DejaVuSans.ttf"], 28)
+    small = font(["/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", "DejaVuSans-Bold.ttf"], 18)
+    d.text((x0, 70), "DVD Koleksiyonum", font=serif, fill="#eef2f6")
+    rated = sum(1 for f in films if f.get("rating") is not None)
+    d.text((x0, 172), f"brensvenka  ·  {len(films)} film  ·  {rated} puan", font=sans, fill="#8a96a4")
+    d.text((x0, 238), "SON İZLEDİKLERİM", font=small, fill="#40bcf4")
+    d.rectangle([x0, 268, x0 + 60, 271], fill="#40bcf4")
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    out = DATA_FILE.with_name("og.png")
+    if out.exists() and out.read_bytes() == buf.getvalue():
+        return False
+    out.write_bytes(buf.getvalue())
+    return True
+
+
 def main():
     films = load_data()
     by_slug = {path_slug(f.get("letterboxdPath")): f for f in films}
@@ -222,6 +274,7 @@ def main():
 
     colored = add_colors(films)
     print(f"Renk hesaplanan afiş: {colored}")
+    print("og.png güncellendi" if make_og(films) else "og.png aynı")
     updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     save_data(films, updated_at)
     print(f"Bitti: {added} yeni film, {changed} güncellenen film, toplam {len(films)}.")
