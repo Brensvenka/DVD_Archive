@@ -598,14 +598,10 @@
     @keyframes disc-spin { to { transform:rotate(360deg); } }
     .overlay.open .disc-label { animation:disc-spin 14s linear infinite; }
     .overlay.open .disc:hover .disc-label { animation-play-state:paused; }
-    /* ışıklar söner */
-    .overlay::before { content:""; position:fixed; inset:0; z-index:7; background:#000; opacity:0; pointer-events:none; }
-    .overlay.opening::before { animation:lights-down .65s ease-out both; }
-    @keyframes lights-down { 0% { opacity:0; } 25% { opacity:.92; } 100% { opacity:0; } }
     .tiles { grid-template-columns:repeat(3,minmax(0,1fr)) !important; }
     @media (max-width:800px) { .tiles { grid-template-columns:repeat(3,minmax(0,1fr)) !important; } }
     @media (max-width:520px) { .tiles { grid-template-columns:1fr !important; } .tools { padding-top:14px; } .search { max-width:none; flex-basis:100%; } .modal-nav { right:auto; left:8px; top:8px; } }
-    @media (prefers-reduced-motion: reduce) { .overlay.open .disc-label { animation:none; } .overlay.opening::before { animation:none; } }
+    @media (prefers-reduced-motion: reduce) { .overlay.open .disc-label { animation:none; } }
   </style>
 </head>
 <body>
