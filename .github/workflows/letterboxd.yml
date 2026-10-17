@@ -29,7 +29,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add films-data.js
+          git add films-data.js og.png
           git diff --cached --quiet && exit 0
           git commit -m "Letterboxd eşitlemesi $(date -u +%Y-%m-%d)"
           git push
