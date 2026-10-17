@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-6RIMO0V97J3tqLmc3MHchyb7WeymLkx9HHakMqG1V2o='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-/pOMcRg+enN/4V8RY4DS87Z0WAJeGVFpcqTuyK3+A8Y='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#12171d" />
@@ -465,13 +465,13 @@
       -webkit-mask-composite:source-in;
       mask:radial-gradient(circle 9px at 0 50%,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 0,#0000 95%,#000), radial-gradient(circle 6px at var(--nx) 100%,#0000 95%,#000), radial-gradient(circle 3.5px at 100% 50%,#0000 95%,#000) 100% 0/100% 11px repeat-y;
       mask-composite:intersect; }
-    .tk-main { display:flex; flex-direction:column; min-width:0; padding:14px 12px 12px 22px; }
+    .tk-main { display:flex; flex-direction:column; justify-content:center; min-width:0; padding:14px 12px 14px 26px; }
     .tk-kind { color:var(--accent); font:600 8.5px var(--sans); letter-spacing:.24em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .ticket strong { margin-top:9px; font:300 34px/1 var(--serif); font-variant-numeric:lining-nums tabular-nums; letter-spacing:-.01em; white-space:nowrap; }
+    .ticket strong { margin-top:0; font:300 34px/1 var(--serif); font-variant-numeric:lining-nums tabular-nums; letter-spacing:-.01em; white-space:nowrap; }
     .tk-label { margin-top:7px; font:500 10px/1.3 var(--sans); letter-spacing:.13em; text-transform:uppercase; }
     .tk-no { margin-top:auto; padding-top:10px; color:var(--muted); font:500 9.5px var(--sans); letter-spacing:.16em; font-variant-numeric:tabular-nums slashed-zero; white-space:nowrap; }
     .tk-stub { display:flex; align-items:center; justify-content:center; border-left:1.5px dashed rgba(200,215,230,.3); background:rgba(64,188,244,.07); }
-    .tk-stub span { writing-mode:vertical-rl; transform:rotate(180deg); color:rgba(200,215,230,.6); font:700 8.5px var(--sans); letter-spacing:.3em; white-space:nowrap; }
+    .tk-stub span { color:rgba(64,188,244,.55); font-size:13px; }
     /* Aylık film şeridi */
     .reel { display:grid; gap:9px; }
     .reel-row { display:grid; grid-template-columns:82px minmax(0,1fr); align-items:center; gap:12px; }
@@ -628,7 +628,7 @@
   const longDay=d=>dayDate(d).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
   function renderStats(){const all=films;const entries=all.flatMap(f=>(f.watchDates||[]).map(d=>({d,f})));const rated=all.filter(f=>f.rating!=null);const avg=rated.length?(rated.reduce((s,f)=>s+f.rating,0)/rated.length):0;const rewatched=all.filter(f=>(f.watchDates||[]).length>1).length;const days=[...new Set(entries.map(e=>e.d))].sort();let best=0,run=0,prev=null;for(const d of days){const t=Date.parse(d+'T00:00:00Z');run=prev!==null&&t-prev===864e5?run+1:1;best=Math.max(best,run);prev=t}
     const fmt=n=>n.toLocaleString('tr-TR');$('#statsLead').textContent=days.length?`${dayDate(days[0]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} – ${dayDate(days[days.length-1]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} arası günlük kayıtları`:'';
-    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı',entries.length],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan',Math.round(avg*10)],[fmt(rewatched),'Tekrar izlenen film',rewatched],[`${best} gün`,'En uzun seri',best]].map(([v,l,n],i)=>`<div class="ticket"><div class="tk-main"><span class="tk-kind">GİRİŞ<span class="tk-en"> · ADMIT ONE</span></span><strong>${v}</strong><span class="tk-label">${l}</span><span class="tk-no">Nº ${String(i+1).padStart(2,'0')}-${String(n).padStart(6,'0')}</span></div><div class="tk-stub" aria-hidden="true"><span>ADMIT ONE</span></div></div>`).join('');
+    $('#statTiles').innerHTML=[[fmt(entries.length),'Günlük kaydı',entries.length],[avg?avg.toFixed(1).replace('.',','):'—','Ortalama puan',Math.round(avg*10)],[fmt(rewatched),'Tekrar izlenen film',rewatched],[`${best} gün`,'En uzun seri',best]].map(([v,l,n],i)=>`<div class="ticket"><div class="tk-main"><strong>${v}</strong><span class="tk-label">${l}</span></div><div class="tk-stub" aria-hidden="true"><span>★</span></div></div>`).join('');
     const log=[...entries].sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);const byYear=new Map();log.forEach(e=>{const y=e.d.slice(0,4);if(!/^\d{4}$/.test(y))return;const v=byYear.get(y)||[];v.push(e);byYear.set(y,v)});const ys=[...byYear.keys()].sort();const maxY=Math.max(1,...ys.map(y=>byYear.get(y).length));const wall=$('#yearWall');
     wall.innerHTML=ys.map(y=>{const l=byYear.get(y);return `<div class="wcol"><div class="wbox"><b>${l.length}</b><div class="wtiles">${l.map(e=>mini(e.f,'wt',`${e.f.title}\n${longDay(e.d)}`)).join('')}</div></div><span class="wy">${y}</span></div>`}).join('');imgFallback(wall);
     const fitWall=()=>{const box=wall.querySelector('.wbox');if(!box)return;const b=box.querySelector('b');const W=box.clientWidth,H=box.clientHeight-(b?b.offsetHeight+6:0);let k=1,g=2;for(;k<80;k++){g=k>8?1:2;const tw=(W-(k-1)*g)/k,rows=Math.ceil(maxY/k);if(rows*tw*1.5+(rows-1)*g<=H)break}wall.style.setProperty('--k',k);wall.style.setProperty('--tg',g+'px')};if(window.ResizeObserver)new ResizeObserver(fitWall).observe(wall);fitWall();
