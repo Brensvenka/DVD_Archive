@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-OeIn/nUbaxTHEUzPe4AlqzqCGXc/PiXkbE/F/nQpwMk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-BTV53MdHf19PQ/BB+oT/pdTyJp+I5lsifKgaazRHLOE='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#12171d" />
@@ -493,6 +493,22 @@
     .fr { position:relative; flex:0 0 auto; display:block; width:30px; aspect-ratio:2/3; overflow:hidden; border-radius:2px; background:var(--cover,#1b232c); box-shadow:0 0 0 1px rgba(255,255,255,.07); cursor:default; }
     .fr img, .wt img, .fp img { display:block; width:100%; height:100%; object-fit:cover; }
     .fr:hover { box-shadow:0 0 0 1.5px var(--accent); }
+    .fr[data-fi], .wt[data-fi] { cursor:pointer; }
+    /* Watchlist'ten 3 film */
+    .wl-box { position:relative; width:min(760px,100%); max-height:100%; overflow:auto; padding:30px 28px 26px; border:1px solid var(--line); border-radius:6px; background:#0d1217; box-shadow:0 30px 90px rgba(0,0,0,.7); color:var(--ink); }
+    .wl-box h3 { margin:4px 0 4px; font:400 26px/1.15 var(--serif); }
+    .wl-box p { margin:0 0 20px; color:var(--muted); font:13px var(--sans); }
+    .wl-close { position:absolute; top:10px; right:14px; border:0; background:none; color:var(--muted); font-size:26px; cursor:pointer; }
+    .wl-close:hover { color:var(--ink); }
+    .wl-picks { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    .wl-pick { display:block; color:inherit; text-decoration:none; }
+    .wl-pick .wp { aspect-ratio:2/3; overflow:hidden; border-radius:3px; background:var(--strip-bg); box-shadow:0 0 0 1px rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; padding:10px; text-align:center; font:400 15px/1.3 var(--serif); color:var(--muted); transition:transform .15s ease, box-shadow .15s ease; }
+    .wl-pick .wp img { display:block; width:calc(100% + 20px); height:calc(100% + 20px); margin:-10px; object-fit:cover; }
+    .wl-pick:hover .wp { transform:translateY(-3px); box-shadow:0 0 0 1.5px var(--accent); }
+    .wl-pick b { display:block; margin-top:10px; font:600 13.5px/1.3 var(--sans); }
+    .wl-pick small { display:block; margin-top:3px; color:var(--muted); font:12px var(--sans); }
+    .wl-actions { display:flex; justify-content:center; margin-top:22px; }
+    @media (max-width:560px){ .wl-box { padding:26px 16px 20px; } .wl-picks { gap:10px; } .wl-pick b { font-size:12px; } }
     .reel-empty { display:block; padding-left:4px; color:rgba(200,215,230,.28); font:italic 300 12.5px/45px var(--serif); }
     /* Afiş yığınları */
     .wall { --k:8; --tg:2px; display:flex; align-items:stretch; justify-content:space-around; gap:18px; height:292px; }
@@ -617,7 +633,7 @@
         <div class="hero-stats"><div class="stat"><strong id="statFilms">597</strong><span>Film</span></div><div class="stat"><strong id="statRated">422</strong><span>Puanlanmış</span></div></div>
       </section>
       <nav class="collection-nav" id="collectionNav" aria-label="Koleksiyon rafları"></nav>
-      <div class="controls"><span class="count" id="countLabel">597 film</span><div class="controls-left"><button class="random-btn" id="randomBtn" type="button" title="Arşivden rastgele bir film aç">🎲 Rastgele film</button><span>SIRALA</span><select id="sortSelect" aria-label="Filmleri sırala"><option value="watched-desc">Son izlenenden</option><option value="rating-asc">En düşük puan</option><option value="rating-desc">En yüksek puan</option><option value="title-asc">İsim · A–Z</option><option value="imdb-desc">IMDb puanı</option></select></div></div>
+      <div class="controls"><span class="count" id="countLabel">597 film</span><div class="controls-left"><button class="random-btn" id="randomBtn" type="button" title="Arşivden rastgele bir film aç">🎲 Rastgele film</button><button class="random-btn" id="wlBtn" type="button" title="Letterboxd izleme listemden rastgele 3 film seç" hidden>🎟️ Watchlist'ten 3 film</button><span>SIRALA</span><select id="sortSelect" aria-label="Filmleri sırala"><option value="watched-desc">Son izlenenden</option><option value="rating-asc">En düşük puan</option><option value="rating-desc">En yüksek puan</option><option value="title-asc">İsim · A–Z</option><option value="imdb-desc">IMDb puanı</option></select></div></div>
       <div id="shelves"></div>
       <nav class="pagination" id="pagination" aria-label="Film sayfaları" hidden></nav>
       <section class="stats" id="stats" aria-label="İstatistikler">
@@ -635,9 +651,11 @@
     </main>
     <footer><span>Film verisi: Letterboxd · IMDb</span><span id="syncStatus">Arşiv: 30 Eylül 2026</span></footer>
   </div>
+  <div class="overlay" id="wlOverlay" role="dialog" aria-modal="true" aria-label="İzleme listemden 3 film"><div class="wl-box"><button class="wl-close" id="wlClose" type="button" aria-label="Kapat">×</button><span class="kick">WATCHLIST</span><h3>Bu akşam ne izlesem?</h3><p id="wlLead"></p><div class="wl-picks" id="wlPicks"></div><div class="wl-actions"><button class="random-btn" id="wlAgain" type="button">🎲 Yeniden seç</button></div></div></div>
   <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Film detayları"><article class="modal"><div class="modal-bg" id="modalBg" aria-hidden="true"></div><button class="close" id="closeModal" aria-label="Kapat">×</button><div class="modal-left"><h3 id="modalTitle"></h3><div class="modal-rating" id="modalRating"></div><div class="details" id="modalDetails"></div><blockquote class="review" id="modalReview"></blockquote><div class="more" id="modalMore" hidden></div></div><div class="modal-right"><div class="disc"><div class="disc-label" id="discLabel"></div></div></div></article></div>
   <div class="tip" id="tip" role="tooltip"></div>
   <script src="films-data.js"></script>
+  <script src="watchlist-data.js"></script>
   <script src="top100.js"></script>
   <script>
   const palettes=[['#263e42','#bd895d'],['#56423b','#d7aa79'],['#354b49','#b59a73'],['#4c3939','#c49072'],['#3d454e','#d0ac7e'],['#584c36','#d2b27c'],['#35433b','#9b7555'],['#51413d','#c2a17e'],['#374751','#b88a68'],['#56463a','#d1a96d'],['#423d51','#b79b82'],['#3e4d40','#bd9270'],['#543c32','#b8965f'],['#3d4545','#a97d63'],['#54443a','#c9a77e'],['#3b434b','#d2b98b'],['#514046','#bf9677'],['#3e4b50','#b58b61']];
@@ -663,12 +681,18 @@
   const dirNames=f=>(f.director||'').split(/\s*,\s*/).filter(Boolean);
   function decorateModal(f){$('.modal-left').scrollTop=0;$('.modal').scrollTop=0;const bg=$('#modalBg');bg.style.backgroundImage=safePoster(f.poster)?`url("${thumbUrl(f.poster)}")`:'none';bg.style.backgroundColor=safeColor(f.colors?.[0])||'#151b22';const names=dirNames(f);const more=$('#modalMore');const others=names.length?films.filter(x=>x!==f&&dirNames(x).some(n=>names.includes(n))).sort((a,b)=>(b.rating??-1)-(a.rating??-1)).slice(0,10):[];if(!others.length){more.hidden=true;more.innerHTML='';return}more.hidden=false;more.innerHTML=`<h4>${names.length>1?'Yönetmenlerden':'Yönetmenden'} diğerleri</h4><div class="more-row">${others.map((x,k)=>{const c=safeColor(x.colors?.[0]),t=safeColor(x.colors?.[1]);return `<button type="button" data-k="${k}" aria-label="${escapeHtml(x.title)} detaylarını aç"><div class="mp" style="${c?`--cover:${c};`:''}${t?`--tint:${t}`:''}">${safePoster(x.poster)?`<img src="${escapeHtml(thumbUrl(x.poster))}" data-full="${escapeHtml(x.poster)}" alt="" loading="lazy">`:''}</div><span>${escapeHtml(x.title)}</span></button>`}).join('')}</div>`;more.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>openFilm(others[Number(b.dataset.k)]));more.querySelectorAll('img[data-full]').forEach(img=>img.addEventListener('error',()=>{const u=img.dataset.full;img.removeAttribute('data-full');if(u&&img.src!==u)img.src=u},{once:true}))}
   $('#randomBtn').onclick=()=>{const pool=films.filter(f=>safePoster(f.poster));const list=pool.length?pool:films;if(list.length)openFilm(list[Math.floor(Math.random()*list.length)])};
+  {const wl=Array.isArray(window.LETTERBOXD_WATCHLIST)?window.LETTERBOXD_WATCHLIST.filter(w=>w&&w.slug&&/^[a-z0-9-]+$/.test(w.slug)):[];const ov=$('#wlOverlay');let last=[];
+    const pick=()=>{let pool=wl.filter(w=>!last.includes(w));if(pool.length<3)pool=[...wl];const out=[];while(out.length<3&&pool.length)out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);last=out;return out};
+    const draw=()=>{$('#wlLead').textContent=`İzleme listemdeki ${wl.length} filmden rastgele üçü · afişe dokununca Letterboxd sayfası açılır`;$('#wlPicks').innerHTML=pick().map(w=>`<a class="wl-pick" href="https://letterboxd.com/film/${w.slug}/" target="_blank" rel="noreferrer"><div class="wp">${safePoster(w.poster)?`<img src="${escapeHtml(w.poster.replace('-0-600-0-900-','-0-230-0-345-'))}" data-full="${escapeHtml(w.poster)}" alt="${escapeHtml(w.title)} afişi">`:escapeHtml(w.title)}</div><b>${escapeHtml(w.title)}</b><small>${[w.year,w.director].filter(Boolean).map(escapeHtml).join(' · ')}</small></a>`).join('');imgFallback($('#wlPicks'))};
+    const close=()=>{ov.classList.remove('open');document.body.style.overflow=''};
+    if(wl.length){$('#wlBtn').hidden=false;$('#wlBtn').onclick=()=>{draw();ov.classList.add('open');document.body.style.overflow='hidden';$('#wlAgain').focus()}}
+    $('#wlAgain').onclick=draw;$('#wlClose').onclick=close;ov.onclick=e=>{if(e.target===ov)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('open'))close()})}
   const tip=$('#tip');function placeTip(t,r){const [a,...b]=t.split('\n');tip.innerHTML=`<b>${escapeHtml(a)}</b>${b.map(escapeHtml).join('<br>')}`;tip.classList.add('on');const w=tip.offsetWidth,h=tip.offsetHeight;let x=r.left+r.width/2-w/2;x=Math.max(8,Math.min(innerWidth-w-8,x));let y=r.top-h-8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px'}
   function showTip(el){const t=el.getAttribute('data-tip');if(t)placeTip(t,el.getBoundingClientRect())}
-  const statsEl=$('#stats');statsEl.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el)});statsEl.addEventListener('mouseout',e=>{if(e.target.closest('[data-tip]'))tip.classList.remove('on')});statsEl.addEventListener('click',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el);else if(!e.target.closest('#barcode'))tip.classList.remove('on')});addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
+  const statsEl=$('#stats');statsEl.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]');if(el)showTip(el)});statsEl.addEventListener('mouseout',e=>{if(e.target.closest('[data-tip]'))tip.classList.remove('on')});statsEl.addEventListener('click',e=>{const el=e.target.closest('[data-tip]');const fi=el?Number(el.dataset.fi):-1;if(el&&films[fi]){tip.classList.remove('on');openFilm(films[fi]);return}if(el)showTip(el);else if(!e.target.closest('#barcode'))tip.classList.remove('on')});addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
   const tinyUrl=u=>u.replace('-0-600-0-900-','-0-150-0-225-');
   function imgFallback(root){root.querySelectorAll('img[data-full]').forEach(img=>img.addEventListener('error',()=>{const u=img.dataset.full;img.removeAttribute('data-full');if(u&&img.src!==u)img.src=u},{once:true}))}
-  function mini(f,cls,t){const c=safeColor(f.colors?.[0]);return `<i class="${cls}"${c?` style="--cover:${c}"`:''} data-tip="${escapeHtml(t)}">${safePoster(f.poster)?`<img src="${escapeHtml(tinyUrl(f.poster))}" data-full="${escapeHtml(f.poster)}" alt="" loading="lazy" decoding="async">`:''}</i>`}
+  function mini(f,cls,t){const c=safeColor(f.colors?.[0]);return `<i class="${cls}"${c?` style="--cover:${c}"`:''} data-tip="${escapeHtml(t)}" data-fi="${films.indexOf(f)}">${safePoster(f.poster)?`<img src="${escapeHtml(tinyUrl(f.poster))}" data-full="${escapeHtml(f.poster)}" alt="" loading="lazy" decoding="async">`:''}</i>`}
   const longDay=d=>dayDate(d).toLocaleDateString('tr-TR',{day:'numeric',month:'long',year:'numeric'});
   function renderStats(){const all=films;const entries=all.flatMap(f=>(f.watchDates||[]).map(d=>({d,f})));const rated=all.filter(f=>f.rating!=null);const avg=rated.length?(rated.reduce((s,f)=>s+f.rating,0)/rated.length):0;const rewatched=all.filter(f=>(f.watchDates||[]).length>1).length;const days=[...new Set(entries.map(e=>e.d))].sort();let best=0,run=0,prev=null;for(const d of days){const t=Date.parse(d+'T00:00:00Z');run=prev!==null&&t-prev===864e5?run+1:1;best=Math.max(best,run);prev=t}
     const fmt=n=>n.toLocaleString('tr-TR');$('#statsLead').textContent=days.length?`${dayDate(days[0]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} – ${dayDate(days[days.length-1]).toLocaleDateString('tr-TR',{month:'long',year:'numeric'})} arası günlük kayıtları`:'';

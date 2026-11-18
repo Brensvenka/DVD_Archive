@@ -198,7 +198,72 @@ def make_og(films):
     return True
 
 
+WATCHLIST_FILE = DATA_FILE.with_name("watchlist-data.js")
+
+
+def load_watchlist():
+    try:
+        text = WATCHLIST_FILE.read_text(encoding="utf-8")
+        start = text.index("[", text.index("window.LETTERBOXD_WATCHLIST ="))
+        return json.loads(text[start:text.rindex("]") + 1])
+    except (OSError, ValueError):
+        return []
+
+
+def update_watchlist(detail_limit=150):
+    """İzleme listesini sayfa sayfa çeker, yeni filmlerin afişini film sayfasından alır."""
+    old = {f["slug"]: f for f in load_watchlist()}
+    items, page = [], 1
+    while page <= 60:
+        url = f"https://letterboxd.com/{USER}/watchlist/" + (f"page/{page}/" if page > 1 else "")
+        try:
+            text = fetch(url)
+        except Exception as e:  # noqa: BLE001
+            print(f"! İzleme listesi alınamadı ({url}): {e}", file=sys.stderr)
+            return 0
+        found = re.findall(r'data-item-name="([^"]+)"[^>]*?data-item-slug="([^"]+)"', text)
+        if not found:
+            break
+        for name, slug in found:
+            name = html.unescape(name)
+            m = re.match(r"^(.*) \((\d{4})\)$", name)
+            items.append({"title": m.group(1) if m else name,
+                          "year": int(m.group(2)) if m else None, "slug": slug})
+        page += 1
+        time.sleep(0.5)
+    if not items:
+        print("! İzleme listesi boş geldi, dosya değiştirilmedi.", file=sys.stderr)
+        return 0
+
+    fetched = 0
+    for it in items:
+        prev = old.get(it["slug"], {})
+        it["poster"] = prev.get("poster", "")
+        it["director"] = prev.get("director", "")
+        if it["poster"] or fetched >= detail_limit:
+            continue
+        try:
+            page_html = fetch(f"https://letterboxd.com/film/{it['slug']}/")
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! {it['slug']} sayfası alınamadı: {e}", file=sys.stderr)
+            continue
+        m = re.search(r'"image":"(https://a\.ltrbxd\.com/resized/[^"]+)"', page_html)
+        if m and POSTER_RE.match(m.group(1)):
+            it["poster"] = m.group(1)
+        m = re.search(r'name="twitter:data1" content="([^"]+)"', page_html)
+        if m:
+            it["director"] = html.unescape(m.group(1))
+        fetched += 1
+        time.sleep(0.6)
+
+    body = json.dumps(items, ensure_ascii=False, separators=(",", ":"))
+    WATCHLIST_FILE.write_text(f"window.LETTERBOXD_WATCHLIST = {body};\n", encoding="utf-8")
+    print(f"İzleme listesi: {len(items)} film, {fetched} yeni afiş.")
+    return len(items)
+
+
 def main():
+    update_watchlist()
     films = load_data()
     by_slug = {path_slug(f.get("letterboxdPath")): f for f in films}
 
