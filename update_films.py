@@ -262,6 +262,27 @@ def update_watchlist(detail_limit=150):
     return len(items)
 
 
+def add_cast(films, limit=150):
+    """Oyunlar için film sayfasından ilk 5 oyuncuyu alır (sadece eksik olanlar)."""
+    done = 0
+    for f in films:
+        if done >= limit:
+            break
+        slug = path_slug(f.get("letterboxdPath"))
+        if "cast" in f or not slug:
+            continue
+        try:
+            page = fetch(f"https://letterboxd.com/film/{slug}/")
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! oyuncular alınamadı: {f.get('title')}: {e}", file=sys.stderr)
+            continue
+        names = re.findall(r'href="/actor/[^"]+/"[^>]*>([^<]+)</a>', page)
+        f["cast"] = [html.unescape(n).strip() for n in names[:5]]
+        done += 1
+        time.sleep(0.6)
+    return done
+
+
 def main():
     update_watchlist()
     films = load_data()
@@ -337,6 +358,7 @@ def main():
         if json.dumps(f, sort_keys=True) != before:
             changed += 1
 
+    print(f"Oyuncu listesi eklenen film: {add_cast(films)}")
     colored = add_colors(films)
     print(f"Renk hesaplanan afiş: {colored}")
     print("og.png güncellendi" if make_og(films) else "og.png aynı")
