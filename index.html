@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-VSn9T+64BiFQxkgJbzgEMhcg5aMSzOdAEw8o+OT60Bg='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-FpjWdu9oO6Myp2/QH6fxnbxogtgyCwRCvqZejB94pgo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://a.ltrbxd.com data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
   <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#12171d" />
@@ -723,7 +723,7 @@
   $('#randomBtn').onclick=()=>{const pool=films.filter(f=>safePoster(f.poster));const list=pool.length?pool:films;if(list.length)openFilm(list[Math.floor(Math.random()*list.length)])};
   {const wl=Array.isArray(window.LETTERBOXD_WATCHLIST)?window.LETTERBOXD_WATCHLIST.filter(w=>w&&w.slug&&/^[a-z0-9-]+$/.test(w.slug)):[];const ov=$('#wlOverlay');let last=[];
     const pick=()=>{let pool=wl.filter(w=>!last.includes(w));if(pool.length<3)pool=[...wl];const out=[];while(out.length<3&&pool.length)out.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);last=out;return out};
-    const draw=()=>{$('#wlLead').textContent=`İzleme listemdeki ${wl.length} filmden rastgele üçü · afişe dokununca Letterboxd sayfası açılır`;$('#wlPicks').innerHTML=pick().map(w=>`<a class="wl-pick" href="https://letterboxd.com/film/${w.slug}/" target="_blank" rel="noreferrer"><div class="wp">${safePoster(w.poster)?`<img src="${escapeHtml(w.poster.replace('-0-600-0-900-','-0-230-0-345-'))}" data-full="${escapeHtml(w.poster)}" alt="${escapeHtml(w.title)} afişi">`:escapeHtml(w.title)}</div><b>${escapeHtml(w.title)}</b><small>${[w.year,w.director].filter(Boolean).map(escapeHtml).join(' · ')}</small></a>`).join('');imgFallback($('#wlPicks'))};
+    const draw=()=>{$('#wlLead').textContent=`İzleme listemdeki ${wl.length} filmden rastgele üçü · afişe dokununca film açılır`;$('#wlPicks').innerHTML=pick().map(w=>`<a class="wl-pick" href="#film/${w.slug}" data-slug="${w.slug}"><div class="wp">${safePoster(w.poster)?`<img src="${escapeHtml(w.poster.replace('-0-600-0-900-','-0-230-0-345-'))}" data-full="${escapeHtml(w.poster)}" alt="${escapeHtml(w.title)} afişi">`:escapeHtml(w.title)}</div><b>${escapeHtml(w.title)}</b><small>${[w.year,w.director].filter(Boolean).map(escapeHtml).join(' · ')}</small></a>`).join('');imgFallback($('#wlPicks'));$('#wlPicks').querySelectorAll('[data-slug]').forEach(a=>a.onclick=e=>{e.preventDefault();const f=WL.find(x=>x.slug===a.dataset.slug);if(f){close();openFilm(f)}})};
     const close=()=>{ov.classList.remove('open');document.body.style.overflow=''};
     if(wl.length){$('#wlBtn').hidden=false;$('#wlBtn').onclick=()=>{draw();ov.classList.add('open');document.body.style.overflow='hidden';$('#wlAgain').focus()}}
     $('#wlAgain').onclick=draw;$('#wlClose').onclick=close;ov.onclick=e=>{if(e.target===ov)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('open'))close()})}
@@ -792,7 +792,7 @@
   modalEl.addEventListener('touchstart',e=>{const t=e.changedTouches[0];tX=t.clientX;tY=t.clientY;tT=Date.now()},{passive:true});
   modalEl.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-tX,dy=t.clientY-tY;if(Date.now()-tT<700&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6&&!e.target.closest('.more-row'))step(dx<0?1:-1)},{passive:true});
   const wlRender=render;
-  render=function(){wlRender();if(activeCollection!=='watchlist')return;const h=shelves.querySelector('.section-head');if(h&&!h.querySelector('.wl-pick3')){const b=document.createElement('button');b.type='button';b.className='random-btn wl-pick3';b.textContent='🎲 Rastgele 3 film seç';b.onclick=()=>$('#wlBtn').click();h.appendChild(b)}const list=filtered();shelves.querySelectorAll('.film').forEach(el=>{const f=list[Number(el.dataset.id)];if(!f)return;el.setAttribute('aria-label',`${f.title} Letterboxd sayfasını aç`);el.onclick=()=>window.open(f.letterboxdPath,'_blank','noopener')})};
+  render=function(){wlRender();if(activeCollection!=='watchlist')return;const h=shelves.querySelector('.section-head');if(h&&!h.querySelector('.wl-pick3')){const b=document.createElement('button');b.type='button';b.className='random-btn wl-pick3';b.textContent='🎲 Rastgele 3 film seç';b.onclick=()=>$('#wlBtn').click();h.appendChild(b)}};
   /* ===== Oyunlar ===== */
   const G={game:'director',state:null,streak:0};
   const gBest=k=>Number(localStorage.getItem('oyun-'+k)||0);
