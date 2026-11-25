@@ -10,7 +10,7 @@ import sys
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 USER = "brensvenka"
@@ -238,8 +238,10 @@ def update_watchlist(detail_limit=150):
     fetched = 0
     for it in items:
         prev = old.get(it["slug"], {})
-        it["poster"] = prev.get("poster", "")
-        it["director"] = prev.get("director", "")
+        for k, v in prev.items():
+            it.setdefault(k, v)
+        it.setdefault("poster", "")
+        it.setdefault("director", "")
         if it["poster"] or fetched >= detail_limit:
             continue
         try:
@@ -278,6 +280,79 @@ def add_cast(films, limit=150):
             continue
         names = re.findall(r'href="/actor/[^"]+/"[^>]*>([^<]+)</a>', page)
         f["cast"] = [html.unescape(n).strip() for n in names[:5]]
+        done += 1
+        time.sleep(0.6)
+    return done
+
+
+def page_ratings(slug):
+    """Film sayfasından Letterboxd ortalamasını (5 üzerinden) ve IMDb kimliğini alır."""
+    page = fetch(f"https://letterboxd.com/film/{slug}/")
+    m = re.search(r'name="twitter:data2" content="([0-9.]+) out of 5"', page)
+    lb = round(float(m.group(1)), 2) if m else None
+    m = re.search(r"imdb\.com/title/(tt\d+)", page)
+    return lb, (m.group(1) if m else None)
+
+
+def imdb_rating(imdb_id):
+    try:
+        page = fetch(f"https://www.imdb.com/title/{imdb_id}/")
+    except Exception as e:  # noqa: BLE001
+        print(f"  ! IMDb alınamadı {imdb_id}: {e}", file=sys.stderr)
+        return None
+    m = re.search(r'"aggregateRating":\{[^}]*?"ratingValue":([0-9.]+)', page)
+    return float(m.group(1)) if m else None
+
+
+def friends_rating(slug):
+    """Arkadaşlarımın bu filme verdiği puanların ortalaması (5 üzerinden) ve kişi sayısı."""
+    page = fetch(f"https://letterboxd.com/{USER}/friends/film/{slug}/")
+    vals = [int(x) for x in re.findall(r"rated-(\d+)", page)]
+    vals = [v for v in vals if 1 <= v <= 10]
+    return (round(sum(vals) / len(vals) / 2, 2) if vals else None), len(vals)
+
+
+def update_ratings(films, watchlist, limit=250):
+    """Eksik puanları doldurur; watchlist'te arkadaş ortalamasını haftada bir yeniler."""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    done = 0
+    for w in watchlist:
+        if done >= limit:
+            break
+        if (w.get("checked") or "") > week_ago:
+            continue
+        try:
+            lb, imdb_id = page_ratings(w["slug"])
+            w["lb"] = lb
+            if imdb_id:
+                w["imdbId"] = imdb_id
+                r = imdb_rating(imdb_id)
+                if r is not None:
+                    w["imdb"] = r
+            w["friends"], w["friendsN"] = friends_rating(w["slug"])
+            w["checked"] = today
+            if done < 3:
+                print(f"  {w['title']}: lb={lb} imdb={w.get('imdb')} arkadaş={w['friends']} ({w['friendsN']})")
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! {w['slug']}: {e}", file=sys.stderr)
+        done += 1
+        time.sleep(0.6)
+    for f in films:
+        if done >= limit:
+            break
+        slug = path_slug(f.get("letterboxdPath"))
+        if not slug or ("lb" in f and f.get("imdb") is not None):
+            continue
+        try:
+            lb, imdb_id = page_ratings(slug)
+            f["lb"] = lb
+            imdb_id = f.get("imdbId") or imdb_id
+            if f.get("imdb") is None and imdb_id:
+                f["imdb"] = imdb_rating(imdb_id)
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! {slug}: {e}", file=sys.stderr)
+            f["lb"] = f.get("lb")
         done += 1
         time.sleep(0.6)
     return done
@@ -359,6 +434,10 @@ def main():
             changed += 1
 
     print(f"Oyuncu listesi eklenen film: {add_cast(films)}")
+    wl = load_watchlist()
+    print(f"Puanı güncellenen kayıt: {update_ratings(films, wl)}")
+    if wl:
+        WATCHLIST_FILE.write_text("window.LETTERBOXD_WATCHLIST = " + json.dumps(wl, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
     colored = add_colors(films)
     print(f"Renk hesaplanan afiş: {colored}")
     print("og.png güncellendi" if make_og(films) else "og.png aynı")
