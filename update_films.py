@@ -294,14 +294,35 @@ def page_ratings(slug):
     return lb, (m.group(1) if m else None)
 
 
+_IMDB = None
+
+
 def imdb_rating(imdb_id):
-    try:
-        page = fetch(f"https://www.imdb.com/title/{imdb_id}/")
-    except Exception as e:  # noqa: BLE001
-        print(f"  ! IMDb alınamadı {imdb_id}: {e}", file=sys.stderr)
-        return None
-    m = re.search(r'"aggregateRating":\{[^}]*?"ratingValue":([0-9.]+)', page)
-    return float(m.group(1)) if m else None
+    """IMDb'nin herkese açık puan dosyasından (title.ratings.tsv.gz) puanı bulur."""
+    global _IMDB
+    if _IMDB is None:
+        import gzip
+        _IMDB = {}
+        try:
+            raw = gzip.decompress(fetch_bytes("https://datasets.imdbws.com/title.ratings.tsv.gz"))
+            for line in raw.decode("utf-8").splitlines()[1:]:
+                parts = line.split("\t")
+                if len(parts) >= 2:
+                    _IMDB[parts[0]] = parts[1]
+        except Exception as e:  # noqa: BLE001
+            print(f"! IMDb puan dosyası alınamadı: {e}", file=sys.stderr)
+    v = _IMDB.get(imdb_id or "")
+    return float(v) if v else None
+
+
+def fill_imdb(items):
+    n = 0
+    for f in items:
+        r = imdb_rating(f.get("imdbId"))
+        if r is not None and f.get("imdb") != r:
+            f["imdb"] = r
+            n += 1
+    return n
 
 
 def friends_rating(slug):
@@ -330,8 +351,12 @@ def update_ratings(films, watchlist, limit=250):
                 r = imdb_rating(imdb_id)
                 if r is not None:
                     w["imdb"] = r
-            w["friends"], w["friendsN"] = friends_rating(w["slug"])
-            w["checked"] = today
+            try:
+                w["friends"], w["friendsN"] = friends_rating(w["slug"])
+                w["checked"] = today
+                time.sleep(1.5)
+            except Exception as e:  # noqa: BLE001
+                print(f"  ! arkadaş puanı alınamadı {w['slug']}: {e}", file=sys.stderr)
             if done < 3:
                 print(f"  {w['title']}: lb={lb} imdb={w.get('imdb')} arkadaş={w['friends']} ({w['friendsN']})")
         except Exception as e:  # noqa: BLE001
@@ -342,19 +367,19 @@ def update_ratings(films, watchlist, limit=250):
         if done >= limit:
             break
         slug = path_slug(f.get("letterboxdPath"))
-        if not slug or ("lb" in f and f.get("imdb") is not None):
+        if not slug or "lb" in f:
             continue
         try:
             lb, imdb_id = page_ratings(slug)
             f["lb"] = lb
-            imdb_id = f.get("imdbId") or imdb_id
-            if f.get("imdb") is None and imdb_id:
-                f["imdb"] = imdb_rating(imdb_id)
+            if imdb_id and not f.get("imdbId"):
+                f["imdbId"] = imdb_id
         except Exception as e:  # noqa: BLE001
             print(f"  ! {slug}: {e}", file=sys.stderr)
             f["lb"] = f.get("lb")
         done += 1
         time.sleep(0.6)
+    print(f"IMDb puanı güncellenen: {fill_imdb(films) + fill_imdb(watchlist)}")
     return done
 
 
