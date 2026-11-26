@@ -325,16 +325,8 @@ def fill_imdb(items):
     return n
 
 
-def friends_rating(slug):
-    """Arkadaşlarımın bu filme verdiği puanların ortalaması (5 üzerinden) ve kişi sayısı."""
-    page = fetch(f"https://letterboxd.com/{USER}/friends/film/{slug}/")
-    vals = [int(x) for x in re.findall(r"rated-(\d+)", page)]
-    vals = [v for v in vals if 1 <= v <= 10]
-    return (round(sum(vals) / len(vals) / 2, 2) if vals else None), len(vals)
-
-
 def update_ratings(films, watchlist, limit=250):
-    """Eksik puanları doldurur; watchlist'te arkadaş ortalamasını haftada bir yeniler."""
+    """Eksik puanları doldurur; watchlist'te Letterboxd ortalamasını haftada bir yeniler."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
     done = 0
@@ -351,14 +343,9 @@ def update_ratings(films, watchlist, limit=250):
                 r = imdb_rating(imdb_id)
                 if r is not None:
                     w["imdb"] = r
-            try:
-                w["friends"], w["friendsN"] = friends_rating(w["slug"])
-                w["checked"] = today
-                time.sleep(1.5)
-            except Exception as e:  # noqa: BLE001
-                print(f"  ! arkadaş puanı alınamadı {w['slug']}: {e}", file=sys.stderr)
+            w["checked"] = today
             if done < 3:
-                print(f"  {w['title']}: lb={lb} imdb={w.get('imdb')} arkadaş={w['friends']} ({w['friendsN']})")
+                print(f"  {w['title']}: lb={lb} imdb={w.get('imdb')}")
         except Exception as e:  # noqa: BLE001
             print(f"  ! {w['slug']}: {e}", file=sys.stderr)
         done += 1
@@ -461,6 +448,12 @@ def main():
     print(f"Oyuncu listesi eklenen film: {add_cast(films)}")
     wl = load_watchlist()
     print(f"Puanı güncellenen kayıt: {update_ratings(films, wl)}")
+    try:
+        import friends_ratings as fr
+        fr.save_cache(fr.update_cache(fr.load_cache(), rss_only=True))
+        fr.apply(fr.load_cache(), films, wl)
+    except Exception as e:  # noqa: BLE001
+        print(f"! Arkadaş puanları güncellenemedi: {e}", file=sys.stderr)
     if wl:
         WATCHLIST_FILE.write_text("window.LETTERBOXD_WATCHLIST = " + json.dumps(wl, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
     colored = add_colors(films)
