@@ -43,7 +43,18 @@ def main():
                 print("Art arda engellendi, yarın devam.", file=sys.stderr)
                 break
         time.sleep(GAP)
-    print(f"Arkadaş puanı alınan: {done}")
+    lb_done = 0
+    for w in [w for w in wl if "lb" not in w][:30]:
+        try:
+            w["lb"], imdb_id = u.page_ratings(w["slug"])
+            if imdb_id:
+                w["imdbId"] = imdb_id
+            lb_done += 1
+        except Exception as e:  # noqa: BLE001
+            print(f"! {w['slug']}: {e}", file=sys.stderr)
+        time.sleep(GAP)
+    print(f"Arkadaş puanı alınan: {done}, Letterboxd ortalaması alınan: {lb_done}")
+    done += lb_done
     if not done:
         return
     body = json.dumps(wl, ensure_ascii=False, separators=(",", ":"))
