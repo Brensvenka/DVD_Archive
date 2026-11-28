@@ -2160,6 +2160,7 @@
     "the-godfather-part-ii": 8,
     "the-grand-budapest-hotel": 10,
     "the-green-mile": 8,
+    "the-hunchback-soul-of-paris": 6,
     "the-imitation-game": 9,
     "the-incredibles": 10,
     "the-invention-of-lying": 4,
@@ -3231,6 +3232,7 @@
     "mary-and-max": 6,
     "mean-streets": 5,
     "memento": 8,
+    "midnight-cowboy": 5,
     "money-trap": 4,
     "mortal-world": 8,
     "mortal-world-2": 3,
@@ -4567,6 +4569,7 @@
     "500-days-of-summer": 10,
     "8-mile": 9,
     "a-clockwork-orange": 8,
+    "a-garfield-christmas": 9,
     "a-ghost-story-2017": 10,
     "a-nightmare-on-elm-street": 10,
     "about-time": 10,
@@ -4625,6 +4628,7 @@
     "donnie-darko": 10,
     "drive-2011": 8,
     "easy-a": 10,
+    "ebenezer-2026": 6,
     "edward-scissorhands": 10,
     "elemental-2023": 6,
     "enola-holmes": 10,
@@ -4648,6 +4652,7 @@
     "frankenhooker": 10,
     "frankenstein-2025": 9,
     "fresh-2022": 9,
+    "garfields-thanksgiving": 9,
     "gattaca": 8,
     "get-out-2017": 9,
     "gone-girl": 10,
@@ -4668,11 +4673,14 @@
     "harry-potter-and-the-prisoner-of-azkaban": 10,
     "hereditary": 10,
     "hey-arnold-the-movie": 10,
+    "home-alone": 10,
+    "home-alone-2-lost-in-new-york": 10,
     "house-on-haunted-hill": 9,
     "how-to-lose-a-guy-in-10-days": 10,
     "howls-moving-castle": 10,
     "i-am-legend": 10,
     "ice-age": 10,
+    "ice-age-a-mammoth-christmas": 8,
     "ice-age-the-meltdown": 10,
     "in-the-mood-for-love": 10,
     "inside-out-2015": 10,
@@ -9078,5 +9086,5 @@
    }
   }
  },
- "updated": "2026-11-27"
+ "updated": "2026-11-28"
 }
